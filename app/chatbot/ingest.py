@@ -17,7 +17,12 @@ def split_documents(docs):
     )
     all_splits = []
     for doc in docs:
-        all_splits.extend(text_splitter.split_documents(doc))
+        splits = text_splitter.split_documents(doc)
+        
+        # Add metadata to each chunk
+        for split in splits:
+                split.metadata['title'] = 'Paper Title'
+        all_splits.extend(splits)
     return all_splits
 
 def index_embeddings(all_splits, model):
