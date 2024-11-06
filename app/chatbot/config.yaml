@@ -1,0 +1,6 @@
+prompts:
+  system: "You are an expert in food and agriculture."
+
+model: llama3.2
+embedding-model: nomic-embed-text
+temperature: 0
