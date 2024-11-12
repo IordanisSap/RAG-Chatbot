@@ -5,6 +5,7 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 import os
 
+
 def load_pdf(file_path):
     loader = PyPDFLoader(file_path)
     doc = loader.load()
@@ -18,18 +19,25 @@ def split_documents(docs):
     all_splits = []
     for doc in docs:
         splits = text_splitter.split_documents(doc)
-        
+
         # Add metadata to each chunk
         for split in splits:
-                split.metadata['title'] = 'Paper Title'
+            split.metadata['title'] = 'Paper Title'
         all_splits.extend(splits)
     return all_splits
 
-def index_embeddings(all_splits, model):
-    vectorstore = Chroma.from_documents(documents=all_splits, embedding=OllamaEmbeddings(model=model), collection_metadata={"hnsw:space": "cosine"})
+
+def index_embeddings(model, all_splits, dest_dir):
+    vectorstore = Chroma.from_documents(documents=all_splits,
+                                        embedding=OllamaEmbeddings(
+                                            model=model),
+                                        collection_metadata={
+                                            "hnsw:space": "cosine"},
+                                        persist_directory=dest_dir)
     return vectorstore
 
-def ingest_pdfs(dataset_dir, model):
+
+def ingest_pdfs(model, dataset_dir, dest_dir):
     documents = []
     for file in os.listdir(dataset_dir):
         if file.endswith(".pdf"):
@@ -38,7 +46,12 @@ def ingest_pdfs(dataset_dir, model):
             doc = load_pdf(file_path)
             documents.append(doc)
     all_splits = split_documents(documents)
-    return index_embeddings(all_splits, model)
+    return index_embeddings(model, all_splits, dest_dir)
+
+
+def load_embeddings(model, embeddings_dir):
+    vectorstore = Chroma(persist_directory=embeddings_dir, embedding_function=OllamaEmbeddings(model=model))
+    return vectorstore
 
 
 if __name__ == "__main__":

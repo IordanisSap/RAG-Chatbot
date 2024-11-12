@@ -1,4 +1,4 @@
-from .ingest import ingest_pdfs
+from .ingest import ingest_pdfs, load_embeddings
 from .retrieve import retrieve
 from .generate import callLLM
 import yaml
@@ -11,8 +11,12 @@ __all__ = ["callLLM_base", "callLLM_with_RAG"]
 with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
     config = yaml.safe_load(f)
 
-vectorstore = ingest_pdfs(
-    "datasets/MarineRestorationAnalysis/pdf", config["embedding-model"])
+embeddings_dir = os.path.join(os.path.dirname(__file__), config["embeddings-dir"])
+
+if not os.path.exists(embeddings_dir):
+    vectorstore = ingest_pdfs(config["embedding-model"], config["dataset-dir"], embeddings_dir)
+else:
+    vectorstore = load_embeddings(config["embedding-model"], embeddings_dir)
 
 
 def callLLM_with_RAG(question):
