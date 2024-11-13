@@ -3,8 +3,9 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="Author" content="Valantis Zervos">
+    <meta name="Author" content="Iordanis Sapidis">
     <meta name="Description" content="KG-Enhanced RAGS Demo">
-    <meta name="keywords" lang="en-us" content="valantis, zervos, csd4878, bio, biography">
+    <meta name="keywords" lang="en-us" content="rag, enhanced, forth, ics, isl, kg, valantis, zervos, iordanis, sapidis, yannis, tzitzikas">
 
     <title>KG-Enhanced RAGS Demo</title>
 
@@ -39,18 +40,17 @@
     <section id="output">
         <h3> Results </h3>
         <div class="container section-content">
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="field-title" for="default-llm-output"> Default LLM output: </label>
-                    <textarea id="default-llm-output" class="big-textarea" readonly></textarea>
-                </div>
-                <div class="col-md-6">
-                    <label class="field-title" for="kgenhanced-llm-output"> KG-Enhanced LLM output: </label>
-                    <textarea id="kgenhanced-llm-output" class="big-textarea" readonly></textarea>
-                </div>
-            </div>
+            <label class="field-title" for="default-llm-output"> Default LLM output: </label>
+            <textarea id="default-llm-output" class="big-textarea" readonly></textarea>
         </div>
-
+        <div class="container section-content">
+            <label class="field-title" for="rag-llm-output"> RAG LLM output: </label>
+            <textarea id="rag-llm-output" class="big-textarea" readonly></textarea>
+        </div>
+        <div class="container section-content">
+            <label class="field-title" for="kgenhanced-llm-output"> KG-Enhanced RAG LLM output: </label>
+            <textarea id="kgenhanced-llm-output" class="big-textarea" readonly></textarea>
+        </div>
     </section>
 
     <section id="retrieval">
@@ -65,8 +65,6 @@
         </div>
 
     </section>
-
-
 </main>
 
 <footer>
@@ -78,6 +76,8 @@
         </div>
     </div>
 </footer>
+
 <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
 </body>
 </html>

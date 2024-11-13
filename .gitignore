@@ -49,10 +49,12 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-
+# IDE Files
+/.idea/.gitignore.idea
 
 
 
 
 # Chatbot
 app/chatbot/vectorstore
+
