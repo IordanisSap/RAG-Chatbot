@@ -4,5 +4,6 @@ prompts:
 model: llama3.2
 embedding-model: nomic-embed-text
 dataset-dir: datasets/MarineRestorationAnalysis/pdf
+# dataset-dir: datasets/1.literature_pdf_big_sample/
 embeddings-dir: vectorstore
 temperature: 0

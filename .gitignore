@@ -53,8 +53,8 @@ docs/_build/
 /.idea/.gitignore.idea
 
 
-
-
+.env
+datasets
 # Chatbot
 app/chatbot/vectorstore
 

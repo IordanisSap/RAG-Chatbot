@@ -9,10 +9,12 @@ function sendMessage() {
     .then(data => {
         console.log("data:",data);
         const defaultLLM = document.getElementById('default-llm-output');
+        const RAGLLM = document.getElementById('rag-llm-output');
         const enhancedLLM = document.getElementById('kgenhanced-llm-output');
         const retrieval = document.getElementById('kgenhanced-llm-retrieval');
         defaultLLM.innerHTML = `${data.response.base}`;
-        enhancedLLM.innerHTML = `${data.response.rag}`;
-        retrieval.innerHTML = `${data.response.chunks}`;
+        RAGLLM.innerHTML = `${data.response.rag.response}`;
+        enhancedLLM.innerHTML = `${data.response.kgrag.response}`;
+        retrieval.innerHTML = `${data.response.kgrag.chunks}`;
     });
 }
