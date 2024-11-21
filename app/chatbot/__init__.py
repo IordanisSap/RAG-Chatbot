@@ -14,7 +14,7 @@ with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
 embeddings_dir = os.path.join(os.path.dirname(__file__), config["embeddings-dir"])
 
 if not os.path.exists(embeddings_dir):
-    vectorstore = ingest_pdfs(config["embedding-model"], config["dataset-dir"], embeddings_dir)
+    vectorstore = ingest_pdfs(config["dataset-dir"], config["embedding-model"], embeddings_dir)
 else:
     vectorstore = load_embeddings(config["embedding-model"], embeddings_dir)
 
