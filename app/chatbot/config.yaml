@@ -1,9 +1,0 @@
-prompts:
-  system: "Respond to all questions in a concise and direct manner, demonstrating your expertise through the content of your answers"
-
-model: llama3.1:8b
-embedding-model: nomic-embed-text
-# dataset-dir: datasets/MarineRestorationAnalysis/pdf
-dataset-dir: /mnt/10TB/iordanissapidis/datasets/large
-embeddings-dir: /mnt/10TB/iordanissapidis/datasets/vectorstore
-temperature: 0
