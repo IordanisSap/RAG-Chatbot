@@ -28,9 +28,16 @@ To install and run the RAG Chatbot, follow these steps:
 6. Modify the [config.yaml](app/chatbot//config.yaml) `model` and `embedding-model` values if needed
 
 7. Start the RAG Chatbot:
+Development
 
     ```bash
     flask --app app run --debug
     ```
+Production
+
+    ```bash
+    gunicorn -b 127.0.0.1:8000 run:gunicorn_app
+    ```
+
 
 8. Open your web browser and navigate to `http://localhost:5000` to access the chatbot.

@@ -1,6 +1,6 @@
 ingestion:
   persist-dir: app/chatbot/tmp/vectorstore
-  dataset-dir: datasets/MarineRestorationAnalysis/pdf
+  # dataset-dir: datasets/MarineRestorationAnalysis/pdf
 
 retrieval:
-  persist-dir: app/chatbot/tmp/vectorstore
+  persist-dir: /mnt/10TB/iordanissapidis/datasets/vectorstore

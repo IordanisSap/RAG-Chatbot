@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
     config = yaml.safe_load(f)
     
 agent = RAGAgent(config)
-agent.index_documents(config["ingestion"]["dataset-dir"])
+# agent.index_documents(config["ingestion"]["dataset-dir"])
 
 async def process_message(user_message):
     llmBaseRes = agent.generate(user_message)
