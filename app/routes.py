@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from .chat import process_message
+from .chatbot.chat import process_message
 
 main = Blueprint('main', __name__)
 

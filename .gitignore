@@ -56,5 +56,5 @@ docs/_build/
 .env
 datasets
 # Chatbot
-app/chatbot/vectorstore
+app/chatbot/tmp/vectorstore
 

@@ -1,10 +1,20 @@
-from .chatbot import callLLM_base, callLLM_with_RAG
+from KG_RAG import RAGAgent
+import yaml
+import os
 
+
+
+with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
+    config = yaml.safe_load(f)
+    
+agent = RAGAgent(config)
+agent.index_documents(config["ingestion"]["dataset-dir"])
 
 async def process_message(user_message):
-    llmBaseRes = callLLM_base(user_message)
-    llmRAGRes, RAGchunks = callLLM_with_RAG(user_message)
-    llmKGRAGRes, KGRAGchunks = callLLM_with_RAG(user_message)
+    llmBaseRes = agent.generate(user_message)
+    llmRAGRes, RAGchunks = agent.generate_rag(user_message)
+    llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message)
+
     response = {
         "base": llmBaseRes,
         "rag": {
