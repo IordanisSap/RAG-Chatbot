@@ -36,7 +36,7 @@ Development
 Production
 
     ```bash
-    gunicorn -b 127.0.0.1:8000 run:gunicorn_app
+    gunicorn --workers=3 -b 127.0.0.1:8000 run:gunicorn_app --daemon
     ```
 
 

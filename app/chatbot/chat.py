@@ -13,7 +13,7 @@ agent = RAGAgent(config)
 async def process_message(user_message):
     llmBaseRes = agent.generate(user_message)
     llmRAGRes, RAGchunks = agent.generate_rag(user_message)
-    llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message)
+    # llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message) #TODO
 
     response = {
         "base": llmBaseRes,
@@ -21,9 +21,9 @@ async def process_message(user_message):
             "response": llmRAGRes,
             "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in RAGchunks])
         },
-        "kgrag": {
-            "response": llmKGRAGRes,
-            "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in KGRAGchunks])
-        }
+        # "kgrag": {
+        #     "response": llmKGRAGRes,
+        #     "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in KGRAGchunks])
+        # }
     }
     return response
