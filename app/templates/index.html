@@ -1,83 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="Author" content="Valantis Zervos">
     <meta name="Author" content="Iordanis Sapidis">
     <meta name="Description" content="KG-Enhanced RAGS Demo">
-    <meta name="keywords" lang="en-us" content="rag, enhanced, forth, ics, isl, kg, valantis, zervos, iordanis, sapidis, yannis, tzitzikas">
+    <meta name="keywords" lang="en-us"
+        content="rag, enhanced, forth, ics, isl, kg, valantis, zervos, iordanis, sapidis, yannis, tzitzikas">
 
     <title>KG-Enhanced RAGS Demo</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='SemanticRAGComparison/css/default.css') }}">
 
 </head>
-<body class="bg-body-secondary">
 
-<header>
-    <div id="header" class="container">
-        <div class="align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='img/ics.png') }}" alt="ICS-FORTH Logo" class="logo">
-            <h1> KG-Enhanced RAGS Demo</h1>
-        </div>
-    </div>
-</header>
-
-<main>
-    <section id="inputSection">
-        <h3> Input </h3>
-        <div class="container section-content">
-            <div>
-                <label class="field-title" for="input-text"> Enter your question: </label>
-                <textarea id="input-text"></textarea>
+<body>
+    <header>
+        <div id="header" class="container">
+            <div class="align-items-center justify-content-center">
+                <img src="{{ url_for('static', filename='SemanticRAGComparison/img/ics.png') }}" alt="ICS-FORTH Logo"
+                    class="logo">
+                <h1> KG-Enhanced RAG Demo</h1>
             </div>
         </div>
-        <button id="runButton" onclick="sendMessage()"> Run</button>
-    </section>
+    </header>
 
-    <section id="output">
-        <h3> Results </h3>
-        <div class="container section-content">
-            <label class="field-title" for="default-llm-output"> Default LLM output: </label>
-            <textarea id="default-llm-output" class="big-textarea" readonly></textarea>
-        </div>
-        <div class="container section-content">
-            <label class="field-title" for="rag-llm-output"> RAG LLM output: </label>
-            <textarea id="rag-llm-output" class="big-textarea" readonly></textarea>
-        </div>
-        <!-- <div class="container section-content">
-            <label class="field-title" for="kgenhanced-llm-output"> KG-Enhanced RAG LLM output: </label>
-            <textarea id="kgenhanced-llm-output" class="big-textarea" readonly></textarea>
-        </div> -->
-    </section>
-
-    <section id="retrieval">
-        <h3> Relevant studies </h3>
-        <div class="container section-content">
-            <div class="row">
-                <div class="col-sm">
-                    <label class="field-title" for="kgenhanced-llm-retrieval"> Relevant text </label>
-                    <textarea id="kgenhanced-llm-retrieval" class="big-textarea" readonly></textarea>
+    <main>
+        <!-- <section id="inputSection">
+            <h3> Input </h3>
+            <div class="container section-content">
+                <div>
+                    <label class="field-title" for="input-text"> Enter your question: </label>
+                    <textarea id="input-text"></textarea>
                 </div>
             </div>
-        </div>
+            <button id="runButton" onclick="sendMessage()"> Run</button>
+        </section>
 
-    </section>
-</main>
-
-<footer>
-    <div class="footer-content">
-        <div class="container">
-            <div class="row d-flex justify-content-between align-items-center text-center">
-                <p class="copyright"> Copyright © 2024 ICS-FORTH </p>
+        <section id="output">
+            <h3> Results </h3>
+            <div class>
+                <div class="container section-content">
+                    <label class="field-title" for="default-llm-output"> Default LLM output: </label>
+                    <textarea id="default-llm-output" class="big-textarea" readonly></textarea>
+                </div>
+                <div class="container section-content">
+                    <label class="field-title" for="rag-llm-output"> RAG LLM output: </label>
+                    <textarea id="rag-llm-output" class="big-textarea" readonly></textarea>
+                </div>
             </div>
-        </div>
-    </div>
-</footer>
+        </section>
 
-<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+        <section id="retrieval">
+            <h3> Relevant studies </h3>
+            <div class="container section-content">
+                <div class="row">
+                    <div class="col-sm">
+                        <label class="field-title" for="kgenhanced-llm-retrieval"> Relevant text </label>
+                        <textarea id="kgenhanced-llm-retrieval" class="big-textarea" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <div class="message-container" id="user-message">
+            <div class="chat-icon-container">
+                <img width="50px" src="{{ url_for('static', filename='SemanticRAGComparison/img/user.svg') }}"
+                    alt="Chatbot SVG">
+            </div>
+            <textarea readonly id="user-message-text"
+                class="message">1asdddddddddddddddddddddddddddddddddddddddddddddddddddddddddd23</textarea>
+        </div>
+
+        <div id="chatbot-message" class="double-message-container">
+            <button class="message-container">
+                <div class="chat-icon-container">
+                    <img width="50px" src="{{ url_for('static', filename='SemanticRAGComparison/img/chatbot.svg') }}"
+                        alt="Chatbot SVG">
+                </div>
+                <textarea readonly id="chatbot-message-text1"
+                    class="message">1asdddddddddddddddddddddddddddddddddddddddddddddddddddddddddd23</textarea>
+            </button>
+            <button class="message-container">
+                <div class="chat-icon-container">
+                    <img width="50px" src="{{ url_for('static', filename='SemanticRAGComparison/img/chatbot.svg') }}"
+                        alt="Chatbot SVG">
+                </div>
+                <textarea readonly id="chatbot-message-text2"
+                    class="message">1asdddddddddddddddddddddddddddddddddddddddddddddddddddddddddd23</textarea>
+            </button>
+        </div>
+    </main>
+
+
+
+    <div class="sticky-footer">
+        <div class="sticky-footer-container">
+            <div id="input-text-container">
+                <textarea rows="1" id="input-text" placeholder="Enter your question"></textarea>
+            </div>
+            <button class="send-button" onclick="onMessageSend()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        <!-- <div class="justify-content-between text-center bg-primary copyright-container">
+            <span class="copyright"> Copyright © 2024 ICS-FORTH </span>
+        </div> -->
+    </div>
+
+
+    <script src="{{ url_for('static', filename='SemanticRAGComparison/js/chatbot.js') }}"></script>
+    <script src="{{ url_for('static', filename='SemanticRAGComparison/js/ui.js') }}"></script>
 
 </body>
+
 </html>
