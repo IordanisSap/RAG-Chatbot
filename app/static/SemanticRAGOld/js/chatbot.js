@@ -1,6 +1,6 @@
 function sendMessage() {
     const message = document.getElementById('input-text').value;
-    fetch('/chat', {
+    fetch('/SemanticRAG/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({message: message})
@@ -14,7 +14,7 @@ function sendMessage() {
         const retrieval = document.getElementById('kgenhanced-llm-retrieval');
         defaultLLM.innerHTML = `${data.response.base}`;
         RAGLLM.innerHTML = `${data.response.rag.response}`;
-        enhancedLLM.innerHTML = `${data.response.kgrag.response}`;
-        retrieval.innerHTML = `${data.response.kgrag.chunks}`;
+        // enhancedLLM.innerHTML = `${data.response.kgrag.response}`;
+        retrieval.innerHTML = `${data.response.rag.chunks}`;
     });
 }
