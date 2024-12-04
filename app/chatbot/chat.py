@@ -19,7 +19,7 @@ async def process_message(user_message):
         "base": llmBaseRes,
         "rag": {
             "response": llmRAGRes,
-            "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in RAGchunks])
+            "chunks": "\n\n".join([f"<b>{x.metadata['source']}</b> (page {x.metadata['page']}): {x.page_content}" for x in RAGchunks])
         },
         # "kgrag": {
         #     "response": llmKGRAGRes,

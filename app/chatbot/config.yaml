@@ -4,3 +4,4 @@ ingestion:
 
 retrieval:
   persist-dir: /mnt/10TB/iordanissapidis/datasets/vectorstore
+  score-threshold: 0.6
