@@ -10,6 +10,15 @@ async function sendMessage(message) {
 }
 
 
+document.getElementById("input-text").addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        if (!event.shiftKey) {
+            event.preventDefault();
+            document.getElementById("send-button").click()
+        }
+    }
+})
+
 document.querySelectorAll("textarea").forEach(function (textarea) {
     const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
     console.log(lineHeight)
@@ -71,8 +80,10 @@ function showChatbotLoading(show) {
     hideChatbotResponses()
 }
 
-function setChatbotResponses(res1, res2) {
+function setChatbotResponses(name1, res1, name2, res2) {
     document.querySelector("#chatbot-message").style.display = "flex"
+    document.getElementById("chatbot-message-name1").innerHTML = name1
+    document.getElementById("chatbot-message-name2").innerHTML = name2
     document.getElementById("chatbot-message-text1").value = res1
     document.getElementById("chatbot-message-text2").value = res2
 }
@@ -86,7 +97,7 @@ function setRelevantText(text) {
     }
 }
 
-function setStickyBottom(){
+function setStickyBottom() {
     document.getElementById("sticky-footer").style.bottom = '35px';
     document.getElementById("sticky-footer").style.translate = 'translate(-50%, 0%)';
 }
@@ -106,13 +117,14 @@ function onMessageSend() {
     setStickyBottom()
 
     sendMessage(userMsg).then(res => {
+        llm_name = res.name
         baseRes = res.response.base
 
         ragRes = res.response.rag.response
         ragChunks = res.response.rag.chunks
 
         showChatbotLoading(false)
-        setChatbotResponses(baseRes, ragRes)
+        setChatbotResponses(llm_name, baseRes, llm_name + " + RAG", ragRes)
         setRelevantText(ragChunks)
         disableSendButton(false)
     })
