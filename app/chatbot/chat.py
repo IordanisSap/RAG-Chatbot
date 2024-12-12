@@ -27,3 +27,6 @@ async def process_message(user_message):
         # }
     }
     return response
+
+def get_llm_name():
+    return config["generation"]["model"]

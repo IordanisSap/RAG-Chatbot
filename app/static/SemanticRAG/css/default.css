@@ -55,8 +55,16 @@ main {
     display: none;
 }
 
-.message {
+.chatbot-name {
+    opacity: 0.6;
+}
+
+.chatbot-message-container {
     padding-top: 12px;
+    width: 100%;
+}
+
+.message {
     border: 0px solid;
     resize: none;
     cursor: inherit;

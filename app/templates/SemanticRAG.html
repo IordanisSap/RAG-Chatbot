@@ -32,18 +32,21 @@
     <main>
         <div class="message-container" id="user-message">
             <div class="chat-icon-container">
-                <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/user.svg') }}"
-                    alt="Chatbot SVG">
+                <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/user.svg') }}" alt="Chatbot SVG">
             </div>
-            <textarea readonly id="user-message-text" class="message"></textarea>
+            <div class="chatbot-message-container">
+                <textarea readonly id="user-message-text" class="message"></textarea>
+            </div>
         </div>
-
         <div class="message-container" id="chatbot-message-placeholder">
             <div class="chat-icon-container">
                 <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
                     alt="Chatbot SVG">
             </div>
-            <textarea readonly id="chat-message-text-placeholder" placeholder="Thinking..." class="message"></textarea>
+            <div class="chatbot-message-container">
+                <textarea readonly id="chat-message-text-placeholder" placeholder="Thinking..."
+                    class="message"></textarea>
+            </div>
         </div>
 
         <div id="chatbot-message" class="double-message-container">
@@ -52,14 +55,20 @@
                     <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
                         alt="Chatbot SVG">
                 </div>
-                <textarea readonly id="chatbot-message-text1" class="message"></textarea>
+                <div class="chatbot-message-container">
+                    <b class="chatbot-name" id="chatbot-message-name1"></b>
+                    <textarea readonly id="chatbot-message-text1" class="message"></textarea>
+                </div>
             </button>
             <button class="message-container" onclick="setResponseSelection('chatbot-message-text2')">
                 <div class="chat-icon-container">
                     <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
                         alt="Chatbot SVG">
                 </div>
-                <textarea readonly id="chatbot-message-text2" class="message"></textarea>
+                <div class="chatbot-message-container">
+                    <b class="chatbot-name" id="chatbot-message-name2"></b>
+                    <textarea readonly id="chatbot-message-text2" class="message"></textarea>
+                </div>
             </button>
         </div>
 
