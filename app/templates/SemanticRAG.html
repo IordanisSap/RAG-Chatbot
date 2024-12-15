@@ -14,11 +14,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='SemanticRAG/css/components/message.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='SemanticRAG/css/components/conversation.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='SemanticRAG/css/default.css') }}">
 
 </head>
 
 <body>
+    {% import "components/message.html" as cbot %}
+
     <header>
         <div id="header" class="container">
             <div class="align-items-center justify-content-center">
@@ -30,47 +35,7 @@
     </header>
 
     <main>
-        <div class="message-container" id="user-message">
-            <div class="chat-icon-container">
-                <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/user.svg') }}" alt="Chatbot SVG">
-            </div>
-            <div class="chatbot-message-container">
-                <textarea readonly id="user-message-text" class="message"></textarea>
-            </div>
-        </div>
-        <div class="message-container" id="chatbot-message-placeholder">
-            <div class="chat-icon-container">
-                <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
-                    alt="Chatbot SVG">
-            </div>
-            <div class="chatbot-message-container">
-                <textarea readonly id="chat-message-text-placeholder" placeholder="Thinking..."
-                    class="message"></textarea>
-            </div>
-        </div>
-
-        <div id="chatbot-message" class="double-message-container">
-            <button class="message-container" onclick="setResponseSelection('chatbot-message-text1')">
-                <div class="chat-icon-container">
-                    <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
-                        alt="Chatbot SVG">
-                </div>
-                <div class="chatbot-message-container">
-                    <b class="chatbot-name" id="chatbot-message-name1"></b>
-                    <textarea readonly id="chatbot-message-text1" class="message"></textarea>
-                </div>
-            </button>
-            <button class="message-container" onclick="setResponseSelection('chatbot-message-text2')">
-                <div class="chat-icon-container">
-                    <img width="50px" src="{{ url_for('static', filename='SemanticRAG/img/chatbot.svg') }}"
-                        alt="Chatbot SVG">
-                </div>
-                <div class="chatbot-message-container">
-                    <b class="chatbot-name" id="chatbot-message-name2"></b>
-                    <textarea readonly id="chatbot-message-text2" class="message"></textarea>
-                </div>
-            </button>
-        </div>
+        <div id="conversation"></div>
 
         <div id="retreived-text-container">
             <h2>Relevant text</h2>
@@ -84,14 +49,11 @@
         <div class="sticky-footer-container">
             <div id="input-text-container">
                 <textarea rows="1" id="input-text" placeholder="Enter your question"></textarea>
-            </div>
+            </div> 
             <button class="send-button" onclick="onMessageSend()" id="send-button">
                 <i class="fas fa-paper-plane"></i>
             </button>
         </div>
-        <!-- <div class="justify-content-between text-center bg-primary copyright-container">
-            <span class="copyright"> Copyright © 2024 ICS-FORTH </span>
-        </div> -->
     </div>
 
     <footer>

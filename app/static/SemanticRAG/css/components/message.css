@@ -1,0 +1,22 @@
+.chat-icon-container {
+    border-radius: 100%;
+    border: 1px solid lightblue;
+    display: inline-flex;
+    align-self: flex-start;
+}
+
+.message-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.text-container {
+    padding-top: 10px;
+    width: 100%;
+}
+
+.message {
+    border: 0px solid;
+    resize: none;
+    cursor: inherit;
+}

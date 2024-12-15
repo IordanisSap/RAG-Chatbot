@@ -1,3 +1,33 @@
+
+
+let messages = []
+
+function addUserMessage(text) {
+    messages = []
+    messages.push({
+        "role": "user",
+        "content": text
+    })
+}
+
+function addBotMessage(responses) {
+    messages.push({
+        "role": "ai",
+        "responses": responses
+    })
+}
+
+async function getConversation(messages) {
+    const res = await fetch('/SemanticRAG/conversation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: messages })
+    })
+    const parsedRes = await res.text()
+    return parsedRes
+
+}
+
 async function sendMessage(message) {
     const res = await fetch('/SemanticRAG/chat', {
         method: 'POST',
@@ -19,11 +49,11 @@ document.getElementById("input-text").addEventListener('keydown', function (even
     }
 })
 
-document.querySelectorAll("textarea").forEach(function (textarea) {
-    const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
-    console.log(lineHeight)
 
-    const maxLines = textarea.id === "input-text" ? 8 : 50;
+input_textarea = document.getElementById("input-text")
+function adjustTextarea(textarea) {
+    const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+    const maxLines = 8;
     const maxHeight = lineHeight * maxLines;
 
     textarea.style.height = textarea.lineHeight + "px";
@@ -54,7 +84,8 @@ document.querySelectorAll("textarea").forEach(function (textarea) {
         }
     });
     textarea.addEventListener("input", adjustHeight);
-});
+}
+adjustTextarea(input_textarea)
 
 
 function getUserMessage() {
@@ -63,29 +94,6 @@ function getUserMessage() {
 
 function clearUserMessage() {
     document.getElementById("input-text").value = ""
-}
-
-function showUserMessage(text) {
-    document.getElementById("user-message").style.display = "flex"
-    document.getElementById("user-message-text").value = text
-}
-
-function hideChatbotResponses() {
-    document.querySelector("#chatbot-message").style.display = "none"
-}
-
-function showChatbotLoading(show) {
-    document.querySelector("#chatbot-message-placeholder").style.display = show ? "flex" : "none"
-    document.querySelector("#chat-message-text-placeholder").value = ""
-    hideChatbotResponses()
-}
-
-function setChatbotResponses(name1, res1, name2, res2) {
-    document.querySelector("#chatbot-message").style.display = "flex"
-    document.getElementById("chatbot-message-name1").innerHTML = name1
-    document.getElementById("chatbot-message-name2").innerHTML = name2
-    document.getElementById("chatbot-message-text1").value = res1
-    document.getElementById("chatbot-message-text2").value = res2
 }
 
 function setRelevantText(text) {
@@ -107,14 +115,17 @@ function disableSendButton(state) {
 }
 
 
-function onMessageSend() {
+async function onMessageSend() {
     userMsg = getUserMessage()
-    showUserMessage(userMsg)
-    showChatbotLoading(true)
+    addUserMessage(userMsg)
     setRelevantText("")
     clearUserMessage()
     disableSendButton(true)
     setStickyBottom()
+
+    getConversation(messages).then(res => {
+        document.getElementById("conversation").innerHTML = res
+    })
 
     sendMessage(userMsg).then(res => {
         llm_name = res.name
@@ -123,17 +134,26 @@ function onMessageSend() {
         ragRes = res.response.rag.response
         ragChunks = res.response.rag.chunks
 
-        showChatbotLoading(false)
-        setChatbotResponses(llm_name, baseRes, llm_name + " + RAG", ragRes)
-        setRelevantText(ragChunks)
-        disableSendButton(false)
+        addBotMessage(
+            [
+                {
+                    "name": llm_name,
+                    "content": baseRes
+                },
+                {
+                    "name": llm_name + " + RAG",
+                    "content": ragRes
+                }
+            ]
+        )
+
+        console.log(res)
+
+        getConversation(messages).then(res => {
+            document.getElementById("conversation").innerHTML = res
+            console.log(ragChunks)
+            setRelevantText(ragChunks)
+            disableSendButton(false)
+        })
     })
-}
-
-function setResponseSelection(id) {
-    res = document.getElementById(id).value;
-    hideChatbotResponses()
-
-    document.querySelector("#chatbot-message-placeholder").style.display = "flex"
-    document.querySelector("#chat-message-text-placeholder").value = res;
 }

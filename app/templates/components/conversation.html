@@ -1,0 +1,50 @@
+{% import "components/message.html" as message_comp %}
+
+{% set system_text = "system" %}
+{% set human_text = "human" %}
+{% set ai_text = "ai" %}
+
+
+{% for message in messages %}
+    {% if message.role == "user" %}
+        {{ message_comp.user_message("user", message.content, "test-id") }}
+    {% elif message.role == "ai" %}
+        {% if message.responses|length > 1 %}
+            <div class="double-message-container">
+            {% for response in message.responses %}
+                <button class="message-item">
+                  {{ message_comp.chatbot_message(response.name, response.content, "chatbot-message-text1") }}
+                </button>
+            {% endfor %}
+            </div>
+        {% else %}
+              {{ message_comp.chatbot_message(message.responses[0].name, message.responses[0].content, "chatbot-message-text1") }}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% if messages|length > 0 and messages[-1].role == "user" %}
+    {{ message_comp.chatbot_thinking_message("Bot", "chat-message-text-placeholder") }}
+{% endif %}
+
+
+{#
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello, what is the capital of France?"
+    },
+    {
+      "role": "ai",
+      "responses": [
+        {
+          "name": "1",
+          "content": "The capital of France is Paris."
+        },
+        {
+          "name": "2",
+          "content": "Paris is the capital city of France."
+        }
+      ]
+    }
+  ]
+#}

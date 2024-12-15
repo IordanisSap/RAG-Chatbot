@@ -1,0 +1,9 @@
+.double-message-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.message-item {
+    display: flex;
+    margin-top: 1rem
+}

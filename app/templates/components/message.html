@@ -1,0 +1,37 @@
+{% macro message(src, content) -%}
+    <div class="message-container">
+        <div class="chat-icon-container">
+            <img width="50px" src="{{ src }}" alt="icon">
+        </div>
+        <div class="text-container">
+            {{ content }}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro chatbot_content(name, text, id) -%}
+    <b class="chatbot-name">{{ name }}</b>
+    <div id="{{id}}" readonly class="message">{{ text }}</div>
+{%- endmacro %}
+
+{% macro chatbot_thinking_content(name, id) -%}
+    <div readonly id="{{id}}" placeholder="Thinking..."
+    class="message"></div>
+{%- endmacro %}
+
+{% macro user_content(text, id) -%}
+    <div id="{{id}}" readonly class="message">{{ text }}</div>
+{%- endmacro %}
+
+
+{% macro chatbot_message(name, text, id) -%}
+    {{ message(url_for('static', filename='SemanticRAG/img/chatbot.svg'), chatbot_content(name, text, id)) }}
+{%- endmacro %}
+
+{% macro chatbot_thinking_message(name, id) -%}
+    {{ message(url_for('static', filename='SemanticRAG/img/chatbot.svg'), chatbot_thinking_content(name, id)) }}
+{%- endmacro %}
+
+{% macro user_message(name, text, id) -%}
+    {{ message(url_for('static', filename='SemanticRAG/img/user.svg'), user_content(text, id)) }}
+{%- endmacro %}

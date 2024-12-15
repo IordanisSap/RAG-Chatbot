@@ -11,6 +11,12 @@ def index():
 def SemanticRAG():
     return render_template('SemanticRAG.html')
 
+@main.route('/SemanticRAG/conversation', methods=['POST'])
+def conversation():
+    messages = request.json.get('messages')
+    print(messages)
+    return render_template('components/conversation.html', messages=messages)
+
 @main.route('/SemanticRAG/chat', methods=['POST'])
 async def chat():
     user_message = request.json.get('message')

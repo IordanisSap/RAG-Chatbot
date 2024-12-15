@@ -25,6 +25,12 @@ main {
     flex-grow: 1;
 }
 
+#conversation {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem
+}
+
 .double-message-container {
     display: flex;
     gap: 1rem;
@@ -37,37 +43,18 @@ main {
     border-radius: 10px;
 }
 
-.message-container {
+.message-item {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1rem
 }
 
 #user-message {
     display: none;
 }
 
-#chatbot-message-placeholder {
-    display: none;
-}
-
-#chatbot-message {
-    display: none;
-}
-
 .chatbot-name {
-    opacity: 0.6;
-}
-
-.chatbot-message-container {
-    padding-top: 12px;
-    width: 100%;
-}
-
-.message {
-    border: 0px solid;
-    resize: none;
-    cursor: inherit;
+    opacity: 0.55;
+    font-size: large;
 }
 
 #retreived-text-container {
@@ -75,12 +62,6 @@ main {
     margin-top: 2rem;
 }
 
-.chat-icon-container {
-    border-radius: 100%;
-    border: 1px solid lightblue;
-    display: inline-flex;
-    align-self: flex-start;
-}
 
 #sticky-footer {
     width: 50%;
@@ -100,16 +81,14 @@ main {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     column-gap: 1rem;
-    justify-content: center;
     display: flex;
+    justify-content: space-between;
     background-color: #eee;
 }
-
 #input-text-container {
     width: 100%;
     align-content: center;
 }
-
 
 textarea {
     width: 100%;
@@ -122,23 +101,34 @@ textarea:focus {
 
 
 #input-text {
-    resize: none;
     border: 0px solid; 
+    word-wrap: break-word; /* Breaks words that are too long */
+    overflow-wrap: break-word;
+    word-break: break-all;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    resize: none;
 }
 
-#input-text:focus {
-    outline: none; /* Ensures no outline on focus */
+#input-text:empty::before {
+    content: "\00a0"; 
 }
+
+
+#input-text:focus {
+    outline: none; 
+} 
 
 .send-button {
     background-color: #4CAF50; /* Green */
     color: white;
-    padding: 10px 15px 10px 14px;
+    padding: 6px 15px 6px 14px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     font-size: 18px;
     align-self: center;
 }
