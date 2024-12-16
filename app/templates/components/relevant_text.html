@@ -1,0 +1,5 @@
+{% for passage in passages -%}
+<b>
+<a href="{{ url_for('main.download_file', filename=passage.source) }}">
+{{ passage.source }}</a></b> (page: {{ passage.page }})<br>{{ passage.content }}
+{% endfor -%}

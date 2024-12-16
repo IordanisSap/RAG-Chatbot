@@ -15,8 +15,7 @@
 {%- endmacro %}
 
 {% macro chatbot_thinking_content(name, id) -%}
-    <div readonly id="{{id}}" placeholder="Thinking..."
-    class="message"></div>
+    <div readonly id="{{id}}" class="message">Thinking...</div>
 {%- endmacro %}
 
 {% macro user_content(text, id) -%}

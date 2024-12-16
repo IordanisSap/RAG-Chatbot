@@ -19,14 +19,22 @@ async def process_message(user_message):
         "base": llmBaseRes,
         "rag": {
             "response": llmRAGRes,
-            "chunks": "\n\n".join([f"<b>{x.metadata['source']}</b> (page {x.metadata['page']}): {x.page_content}" for x in RAGchunks])
+            "chunks": [{
+                "source": os.path.basename(x.metadata['source']),
+                "page": x.metadata['page'],
+                "content": x.page_content
+            } for x in RAGchunks]
         },
         # "kgrag": {
         #     "response": llmKGRAGRes,
         #     "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in KGRAGchunks])
         # }
     }
+    
     return response
+
+async def search_text(user_message):
+    pass
 
 def get_llm_name():
     return config["generation"]["model"]

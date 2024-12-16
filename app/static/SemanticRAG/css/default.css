@@ -31,27 +31,6 @@ main {
     gap: 1rem
 }
 
-.double-message-container {
-    display: flex;
-    gap: 1rem;
-}
-
-.double-message-container > * {
-    flex: 1;
-    background-color: #eee;
-    padding: 0.5rem;
-    border-radius: 10px;
-}
-
-.message-item {
-    display: flex;
-    margin-top: 1rem
-}
-
-#user-message {
-    display: none;
-}
-
 .chatbot-name {
     opacity: 0.55;
     font-size: large;

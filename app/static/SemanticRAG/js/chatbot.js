@@ -25,7 +25,16 @@ async function getConversation(messages) {
     })
     const parsedRes = await res.text()
     return parsedRes
+}
 
+async function getRelevantWork(passages) {
+    const res = await fetch('/SemanticRAG/passages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passages: passages })
+    })
+    const parsedRes = await res.text()
+    return parsedRes
 }
 
 async function sendMessage(message) {
@@ -147,13 +156,15 @@ async function onMessageSend() {
             ]
         )
 
-        console.log(res)
 
         getConversation(messages).then(res => {
             document.getElementById("conversation").innerHTML = res
-            console.log(ragChunks)
-            setRelevantText(ragChunks)
             disableSendButton(false)
         })
+
+        if (ragChunks)
+            getRelevantWork(ragChunks).then(res => {
+                setRelevantText(res)
+            })
     })
 }
