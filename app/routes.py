@@ -28,9 +28,25 @@ def relevant_studies():
 @main.route('/SemanticRAG/chat', methods=['POST'])
 async def chat():
     user_message = request.json.get('message')
-    bot_response = await process_message(user_message)
+    
+    try: 
+        topk = int(request.args.get('topk'))
+        score_threshold = float(request.args.get('score_threshold'))
+        if topk <= 0 or score_threshold <= 0 : raise ValueError("topk value must be positive")
+        
+        retrieval_config = {
+            "topk": topk,
+            "score_threshold": score_threshold
+        }
+        
+    except (ValueError, TypeError) as e:
+        retrieval_config = None
+        
+    bot_response = await process_message(user_message, retrieval_config)
     bot_name = get_llm_name()
     return jsonify({'response': bot_response, 'name': bot_name})
+
+    
 
 
 UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/datasets/large"

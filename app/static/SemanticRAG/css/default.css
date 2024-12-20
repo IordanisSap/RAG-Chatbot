@@ -59,7 +59,7 @@ main {
     padding: 1rem;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
-    column-gap: 1rem;
+    column-gap: 2rem;
     display: flex;
     justify-content: space-between;
     background-color: #eee;
@@ -68,6 +68,40 @@ main {
 #input-text-container {
     width: 100%;
     align-content: center;
+    flex:4;
+}
+
+.param {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 0.2rem;   
+}
+
+
+.param-item {
+    width: 3.5rem;
+    padding: 0.15rem;
+    display: block;
+    text-align: center;
+    border: 0px solid;
+    border-radius: 5px;
+}
+
+.param-item:focus {
+    outline: none; 
+} 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 textarea {
@@ -86,7 +120,6 @@ textarea:focus {
     /* Breaks words that are too long */
     overflow-wrap: break-word;
     word-break: break-all;
-    flex: 1;
     min-width: 0;
     display: flex;
     flex-grow: 1;

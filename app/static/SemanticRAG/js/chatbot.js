@@ -37,8 +37,11 @@ async function getRelevantWork(passages, userMsg) {
     return parsedRes
 }
 
-async function sendMessage(message) {
-    const res = await fetch('/SemanticRAG/chat', {
+async function sendMessage(message, topk, score_threshold) {
+    const res = await fetch('/SemanticRAG/chat?' + new URLSearchParams({
+        topk: topk,
+        score_threshold: score_threshold
+    }), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: message })
@@ -57,6 +60,87 @@ document.getElementById("input-text").addEventListener('keydown', function (even
         }
     }
 })
+
+function getTopk() {
+    elem = document.getElementById("topk");
+    return elem.value !== "" ? elem.value : elem.getAttribute("placeholder");
+}
+
+function getScoreThreshold() {
+    elem = document.getElementById("score");
+    return elem.value !== "" ? elem.value : elem.getAttribute("placeholder");
+}
+
+
+function clearUserMessage() {
+    document.getElementById("input-text").value = ""
+}
+
+function setRelevantText(text) {
+    if (text) {
+        document.getElementById("retreived-text-container").style.display = "block"
+        document.getElementById("retreived-text").innerHTML = text
+    } else document.getElementById("retreived-text-container").style.display = "none"
+}
+
+function setStickyBottom() {
+    document.getElementById("sticky-footer").style.bottom = '35px';
+    document.getElementById("sticky-footer").style.translate = 'translate(-50%, 0%)';
+}
+
+function disableSendButton(state) {
+    document.getElementById("send-button").disabled = state
+}
+
+
+async function onMessageSend() {
+    userMsg = document.getElementById("input-text").value
+    addUserMessage(userMsg)
+    setRelevantText("")
+    document.getElementById("input-text").value = ""
+    disableSendButton(true)
+    setStickyBottom()
+
+    getConversation(messages).then(res => {
+        document.getElementById("conversation").innerHTML = res
+    })
+
+    topk = getTopk()
+    score_threshold = getScoreThreshold()
+
+    sendMessage(userMsg, topk, score_threshold).then(res => {
+        llm_name = res.name
+        baseRes = res.response.base
+
+        ragRes = res.response.rag.response
+        rag_passages = res.response.rag.chunks
+
+        addBotMessage(
+            [
+                {
+                    "name": llm_name,
+                    "content": baseRes
+                },
+                {
+                    "name": llm_name + " + RAG",
+                    "content": ragRes
+                }
+            ]
+        )
+
+
+        getConversation(messages).then(res => {
+            document.getElementById("conversation").innerHTML = res
+            disableSendButton(false)
+        })
+
+        if (rag_passages)
+            getRelevantWork(rag_passages, userMsg).then(res => {
+                setRelevantText(res)
+            })
+    })
+}
+
 
 
 input_textarea = document.getElementById("input-text")
@@ -95,76 +179,3 @@ function adjustTextarea(textarea) {
     textarea.addEventListener("input", adjustHeight);
 }
 adjustTextarea(input_textarea)
-
-
-function getUserMessage() {
-    return document.getElementById("input-text").value
-}
-
-function clearUserMessage() {
-    document.getElementById("input-text").value = ""
-}
-
-function setRelevantText(text) {
-    if (text) {
-        document.getElementById("retreived-text-container").style.display = "block"
-        document.getElementById("retreived-text").innerHTML = text
-    } else {
-        document.getElementById("retreived-text-container").style.display = "none"
-    }
-}
-
-function setStickyBottom() {
-    document.getElementById("sticky-footer").style.bottom = '35px';
-    document.getElementById("sticky-footer").style.translate = 'translate(-50%, 0%)';
-}
-
-function disableSendButton(state) {
-    document.getElementById("send-button").disabled = state
-}
-
-
-async function onMessageSend() {
-    userMsg = getUserMessage()
-    addUserMessage(userMsg)
-    setRelevantText("")
-    clearUserMessage()
-    disableSendButton(true)
-    setStickyBottom()
-
-    getConversation(messages).then(res => {
-        document.getElementById("conversation").innerHTML = res
-    })
-
-    sendMessage(userMsg).then(res => {
-        llm_name = res.name
-        baseRes = res.response.base
-
-        ragRes = res.response.rag.response
-        rag_passages = res.response.rag.chunks
-
-        addBotMessage(
-            [
-                {
-                    "name": llm_name,
-                    "content": baseRes
-                },
-                {
-                    "name": llm_name + " + RAG",
-                    "content": ragRes
-                }
-            ]
-        )
-
-
-        getConversation(messages).then(res => {
-            document.getElementById("conversation").innerHTML = res
-            disableSendButton(false)
-        })
-
-        if (rag_passages)
-            getRelevantWork(rag_passages, userMsg).then(res => {
-                setRelevantText(res)
-            })
-    })
-}

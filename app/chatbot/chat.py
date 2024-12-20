@@ -10,9 +10,17 @@ with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
 agent = RAGAgent(config)
 # agent.index_documents(config["ingestion"]["dataset-dir"])
 
-async def process_message(user_message):
+default_retrieval_config = {
+    "topk": config["retrieval"]["topk"],
+    "score_threshold": config["retrieval"]["score-threshold"]
+}
+
+async def process_message(user_message, retrieval_config = None):
+    if retrieval_config is None:
+        retrieval_config = default_retrieval_config
+    
     llmBaseRes = agent.generate(user_message)
-    llmRAGRes, RAGchunks = agent.generate_rag(user_message)
+    llmRAGRes, RAGchunks = agent.generate_rag(user_message,retrieval_config)
     # llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message) #TODO
 
     response = {
