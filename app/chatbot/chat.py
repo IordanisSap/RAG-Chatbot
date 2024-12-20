@@ -22,7 +22,7 @@ async def process_message(user_message):
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata['page'],
-                "content": x.page_content
+                "content": x.page_content.split(" ")
             } for x in RAGchunks]
         },
         # "kgrag": {
@@ -33,8 +33,14 @@ async def process_message(user_message):
     
     return response
 
-async def search_text(user_message):
-    pass
+async def search_query(user_message, topk=5, score_threshold=0.6):
+    docs = agent.retrieve(user_message, topk, score_threshold)
+    docs = [{
+        "source": os.path.basename(doc.metadata['source']),
+        "page": doc.metadata['page'],
+        "content": doc.page_content.split(" ")
+    } for doc in docs]
+    return docs
 
 def get_llm_name():
     return config["generation"]["model"]

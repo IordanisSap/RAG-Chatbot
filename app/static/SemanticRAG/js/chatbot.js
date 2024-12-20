@@ -27,11 +27,11 @@ async function getConversation(messages) {
     return parsedRes
 }
 
-async function getRelevantWork(passages) {
+async function getRelevantWork(passages, userMsg) {
     const res = await fetch('/SemanticRAG/passages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passages: passages })
+        body: JSON.stringify({ passages: passages, query:userMsg })
     })
     const parsedRes = await res.text()
     return parsedRes
@@ -141,7 +141,7 @@ async function onMessageSend() {
         baseRes = res.response.base
 
         ragRes = res.response.rag.response
-        ragChunks = res.response.rag.chunks
+        rag_passages = res.response.rag.chunks
 
         addBotMessage(
             [
@@ -162,8 +162,8 @@ async function onMessageSend() {
             disableSendButton(false)
         })
 
-        if (ragChunks)
-            getRelevantWork(ragChunks).then(res => {
+        if (rag_passages)
+            getRelevantWork(rag_passages, userMsg).then(res => {
                 setRelevantText(res)
             })
     })

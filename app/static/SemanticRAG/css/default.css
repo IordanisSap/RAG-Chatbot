@@ -64,6 +64,7 @@ main {
     justify-content: space-between;
     background-color: #eee;
 }
+
 #input-text-container {
     width: 100%;
     align-content: center;
@@ -80,8 +81,9 @@ textarea:focus {
 
 
 #input-text {
-    border: 0px solid; 
-    word-wrap: break-word; /* Breaks words that are too long */
+    border: 0px solid;
+    word-wrap: break-word;
+    /* Breaks words that are too long */
     overflow-wrap: break-word;
     word-break: break-all;
     flex: 1;
@@ -93,16 +95,17 @@ textarea:focus {
 }
 
 #input-text:empty::before {
-    content: "\00a0"; 
+    content: "\00a0";
 }
 
 
 #input-text:focus {
-    outline: none; 
-} 
+    outline: none;
+}
 
 .send-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     color: white;
     padding: 6px 15px 6px 14px;
     border: none;
@@ -201,22 +204,35 @@ section {
 }
 
 pre {
-    white-space: pre-wrap; /* Allows wrapping of long lines */
-    word-wrap: break-word; /* Break words if necessary */
-  }
+    white-space: pre-wrap;
+    /* Allows wrapping of long lines */
+    word-wrap: break-word;
+    /* Break words if necessary */
+}
 
-  h1 {
+h1 {
     margin-top: 2rem;
-  }
+}
 
-  header {
+header {
     margin-top: 2rem;
-  }
+}
 
-  footer {
+footer {
     bottom: 0;
     margin-bottom: 0;
     align-self: flex-end;
     width: 100%;
     overflow: hidden;
-  }
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    /* Remove default padding */
+    gap: 1rem
+}
+
+li {
+    margin-bottom: 10px;
+}
