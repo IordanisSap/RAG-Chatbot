@@ -1,5 +1,3 @@
-
-
 let messages = []
 
 function addUserMessage(text) {

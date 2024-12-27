@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, send_from_directory, abort, redirect
+from flask import Blueprint, render_template, request, jsonify, send_from_directory, abort, redirect, url_for
 from .chatbot.chat import process_message, get_llm_name, search_query
 
 main = Blueprint('main', __name__)
@@ -55,11 +55,17 @@ UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/datasets/large"
 def download_file(filename):
     try:
         # Ensure the file exists in the folder
-        return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+        return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=False)
     except FileNotFoundError:
         # Return a 404 if the file does not exist
         abort(404)
         
+        
+@main.route('/SemanticRAG/pdf/<src>', methods=['GET'])
+async def show_pdf(src):
+    src_url = url_for('main.download_file', filename=src, _external=True)
+    keyword = ' '.join(request.args.getlist('keyword')[:10]).replace("\n","")
+    return render_template('components/pdf.html', src=src_url, keyword=keyword)
         
         
 @main.route('/SemanticRAG/search', methods=['GET'])

@@ -64,6 +64,18 @@
         </div>
     </div>
 
+    {# <div class="pdf-iframe">
+        <div class="pdf-container">
+            <embed src="http://127.0.0.1:5000/SemanticRAG/download/10.1023_BRUSE.0000018931.98957.4a.pdf#toolbar=0&page=4&search=%22An%20or%20de%20red%20spaced%20letters%20array%22" width="100%" height="100%">
+        </div>
+    </div> #}
+
+    {# <div class="pdf-iframe">
+        <div class="pdf-container">
+            <iframe id="pdfViewer"  src="http://127.0.0.1:5000/SemanticRAG/pdf.js/web/viewer.html?file=http://127.0.0.1:5000/SemanticRAG/download/10.1023_BRUSE.0000018931.98957.4a.pdf#page=4" width="100%" height="100%"></iframe>
+        </div>
+    </div> #}
+
     <footer>
         <div class=" bg-primary  row d-flex justify-content-between align-items-center text-center copyright-container">
             <span class="copyright"> Copyright © 2024 ICS-FORTH </span>
@@ -71,6 +83,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='SemanticRAG/js/chatbot.js') }}"></script>
+
 </body>
 
 </html>

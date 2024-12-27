@@ -1,0 +1,27 @@
+
+<iframe id="pdfViewer" src="http://127.0.0.1:5000/SemanticRAG/pdf.js/web/viewer.html?file={{src}}" width="100%" height="100%"></iframe>
+
+<script>
+function displayPDF(id, keyword){
+    const iframe = document.getElementById(id);
+
+    iframe.onload = () => {
+      const childWindow = iframe.contentWindow;
+      console.log(childWindow)
+    
+      if (childWindow && childWindow.PDFViewerApplication) {
+        childWindow.PDFViewerApplication.initializedPromise.then(() => {          
+          childWindow.PDFViewerApplication.eventBus.dispatch("find", {
+            source: window,
+            type: "find",
+            query: keyword,
+            phraseSearch: true,
+            caseSensitive: false,
+            highlightAll: true
+          });
+        });
+      }
+    };
+}
+displayPDF("pdfViewer", "{{keyword}}")
+</script>
