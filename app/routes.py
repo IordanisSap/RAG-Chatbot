@@ -63,7 +63,7 @@ def download_file(filename):
         
 @main.route('/SemanticRAG/pdf/<src>', methods=['GET'])
 async def show_pdf(src):
-    src_url = url_for('main.download_file', filename=src, _external=True)
+    src_url = url_for('main.download_file', filename=src, _external=True, _scheme='https')
     keywords = request.args.getlist('keyword')[:10]
     processed_keywords = [
         part for word in keywords for part in (word.split('\n') if '\n' in word else [word])
@@ -71,8 +71,8 @@ async def show_pdf(src):
 
     keyword = ' '.join(processed_keywords)
     return render_template('components/pdf.html', src=src_url, keyword=keyword)
-        
-        
+       
+ 
 @main.route('/SemanticRAG/search', methods=['GET'])
 async def search():
     return render_template('search.html')

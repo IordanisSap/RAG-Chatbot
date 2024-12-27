@@ -14555,6 +14555,8 @@ initCom(PDFViewerApplication);
       }
       const fileOrigin = new URL(file, window.location.href).origin;
       if (fileOrigin !== viewerOrigin) {
+        console.log(fileOrigin)
+        console.log(viewerOrigin)
         throw new Error("file origin does not match viewer's");
       }
     } catch (ex) {
