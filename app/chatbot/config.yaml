@@ -1,9 +1,8 @@
-ingestion:
-  persist-dir: app/chatbot/tmp/vectorstore
-  # dataset-dir: datasets/MarineRestorationAnalysis/pdf
+# ingestion:
+#   persist-dir: app/chatbot/tmp/vectorstore
 
 retrieval:
-  persist-dir: /mnt/10TB/iordanissapidis/datasets/vectorstore
+  persist-dir: /mnt/10TB/iordanissapidis/vectorstores
   score-threshold: 0.6
   topk: 6
 

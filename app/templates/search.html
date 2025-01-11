@@ -21,32 +21,57 @@
 
 <body>
     <main>
-        <div id="search-container">
-            <div id="searchbar-container">
-                <i class="fas fa-search search-icon"></i>
-                <div id="input-text-container">
-                    <textarea rows="1" id="input-text" placeholder="Enter your question"></textarea>
-                </div> 
+        <div>
+            <label for="collections">PDF Collection</label>
+            <select name="collections" id="collections">
+                {% for collection in collections %}
+                <option value="{{ collection }}">{{collection}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="main">
+            <div id="search-div">
+                <span class="section-title">Search</span>
+                <div id="search-container">
+                    <div id="searchbar-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <div id="input-text-container">
+                            <textarea rows="1" id="input-text" placeholder="Search"></textarea>
+                        </div>
+                    </div>
+                    <div id="params-container">
+                        <div>
+                            <span>Top&#8209;k</span>
+                            <input id="topk" type="number" min="1" max="100" class="param-item" placeholder="5" />
+                        </div>
+                        <div>
+                            <span>Score threshold</span>
+                            <input id="score" step="0.1" type="number" min="0.1" max="1" class="param-item"
+                                placeholder="0.6" />
+                        </div>
+                    </div>
+                </div>
+                <div id="results"></div>
             </div>
-            <div id="params-container">
-                <div>
-                    <span>Top&#8209;k</span>
-                    <input id="topk" type="number" min="1" max="100" class="param-item" placeholder="5" type="text"/>
-                </div>
-                <div>
-                    <span>Score threshold</span>
-                    <input id="score" step="0.1" type="number" min="0.1" max="1" class="param-item" placeholder="0.6" type="text"/>
-                </div>
+            {# <div>
+                <span>Collections</span>
+                <form action="{{ url_for('main.upload_files') }}" method="post" enctype="multipart/form-data">
+                    <input type="text" id="collection_name" placeholder="name" />
+                    <input type="file" name="files[]" multiple>
+                    <button type="submit">Upload</button>
+                </form>
+            </div> #}
+            <div id="documents-div">
+                <span class="section-title">Documents</span>
+                <div id="documents-container"></div>
             </div>
         </div>
-        
-        <div id="results"></div>
     </main>
-        <footer>
-            <div class=" bg-primary  row d-flex justify-content-between align-items-center text-center copyright-container">
-                <span class="copyright"> Copyright © 2024 ICS-FORTH </span>
-            </div>
-        </footer>
+    <footer>
+        <div class=" bg-primary  row d-flex justify-content-between align-items-center text-center copyright-container">
+            <span class="copyright"> Copyright © 2024 ICS-FORTH </span>
+        </div>
+    </footer>
 
 
     <script src="{{ url_for('static', filename='SemanticRAG/js/search.js') }}"></script>

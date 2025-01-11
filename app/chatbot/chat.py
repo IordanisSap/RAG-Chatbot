@@ -1,7 +1,7 @@
 from KG_RAG import RAGAgent
 import yaml
 import os
-
+from ..utils import validate_path
 
 
 with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
@@ -41,14 +41,34 @@ async def process_message(user_message, retrieval_config = None):
     
     return response
 
-async def search_query(user_message, topk=5, score_threshold=0.6):
-    docs = agent.retrieve(user_message, topk, score_threshold)
+async def search_query(user_message, collection, topk=5, score_threshold=0.6):
+    persist_dir = validate_path(config["retrieval"]["persist-dir"], collection)
+    print(persist_dir)
+    docs = agent.retrieve(user_message, persist_dir, topk, score_threshold)
     docs = [{
         "source": os.path.basename(doc.metadata['source']),
         "page": doc.metadata['page'],
         "content": doc.page_content.split(" ")
     } for doc in docs]
     return docs
+
+async def index_documents(source_dir, name):
+    persist_dir = config["retrieval"]["persist-dir"]
+    vectorstores = get_vectorstores()
+    
+    if name in vectorstores:
+        print("ALREADY EXISTS")
+        return
+    
+    os.makedirs(os.path.join(persist_dir, name), exist_ok=True)
+    agent.index_documents(source_dir, os.path.join(persist_dir, name))
+    
+def get_vectorstores(persist_dir = None):
+    if persist_dir is None:
+        persist_dir = config["retrieval"]["persist-dir"]
+        
+    vectorstores = os.listdir(persist_dir)
+    return vectorstores
 
 def get_llm_name():
     return config["generation"]["model"]
