@@ -8,7 +8,7 @@ import shutil
 
 main = Blueprint('main', __name__, url_prefix='/SemanticRAG')
 
-DOWNLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG"
+DOWNLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/documents"
 
 
 @main.route('/')
@@ -30,7 +30,6 @@ def relevant_studies():
     
 @main.route('/chat', methods=['GET'])
 def chatUI():
-    print(get_vectorstores())
     return render_template('chat.html')
 
 @main.route('/chat', methods=['POST'])
@@ -116,12 +115,14 @@ UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/tmp"
 ALLOWED_EXTENSIONS = {'pdf'}
 
 
-@main.route('/upload', methods=['POST'])
-async def upload_files():
+@main.route('/collection', methods=['POST'])
+async def upload_collection():
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
     temp_dir = tempfile.mkdtemp(dir=UPLOAD_FOLDER)
     print(f"Temporary directory created: {temp_dir}")
+    
+    new_name = request.form.get("name")
 
     if 'files[]' not in request.files:
         flash('No files part')
@@ -143,6 +144,7 @@ async def upload_files():
             flash(f"Invalid file type: {file.filename}")
 
 
-    await index_documents(temp_dir, "test")
+    await index_documents(temp_dir, new_name)
+    shutil.copytree(temp_dir, os.path.join(DOWNLOAD_FOLDER,new_name), dirs_exist_ok=True)
     shutil.rmtree(temp_dir)
-    return {"uploaded_files": saved_files}, 200
+    return redirect(url_for('main.search'))

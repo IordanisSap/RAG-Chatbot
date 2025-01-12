@@ -22,10 +22,10 @@ const watchIds = ['input-text', 'topk', 'score']
 
 const textarea = document.getElementById('input-text');
 
-for (id of watchIds){
+for (id of watchIds) {
     elem = document.getElementById(id)
     elem.addEventListener('input', () => {
-        clearTimeout(typingTimer); 
+        clearTimeout(typingTimer);
         typingTimer = setTimeout(search, doneTypingInterval);
     });
 }
@@ -52,9 +52,74 @@ async function getCollectionDocuments() {
 
     const parsedRes = await res.text()
 
-    console.log(parsedRes);
     doc_container.innerHTML = parsedRes
 }
 
 
 getCollectionDocuments()
+
+
+const modal = new bootstrap.Modal(document.getElementById('newCollectionModal'))
+select_collection = document.getElementById('collections')
+select_collection.setAttribute('data-previous-value', select_collection.value);
+
+select_collection.onchange = (event) => {
+    const previousValue = select_collection.getAttribute('data-previous-value');
+    const currentValue = event.target.value;
+    if (currentValue === "new") {
+        modal.show();
+        document.getElementById('newCollectionForm').reset()
+        select_collection.value = previousValue;
+    } else {
+        select_collection.setAttribute('data-previous-value', currentValue);
+        getCollectionDocuments()
+        search()
+    }
+}
+
+search()
+
+document.getElementById('submitButton').addEventListener('click', function () {
+    form = document.getElementById('newCollectionForm')
+    if (form.checkValidity()) {
+        form.submit()
+        modal.hide();
+    }
+    else form.reportValidity();
+});
+
+
+
+
+
+
+
+
+
+const divider = document.querySelector('.divider');
+const leftFlexbox = document.getElementById('search-div');
+const rightFlexbox = document.getElementById('documents-div');
+
+let isDragging = false;
+
+divider.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  document.body.style.cursor = 'ew-resize'; // Change cursor during drag
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+
+  const containerRect = divider.parentElement.getBoundingClientRect();
+  const newLeftWidth = e.clientX - containerRect.left;
+  const newRightWidth = containerRect.width - newLeftWidth - divider.offsetWidth;
+
+  // Update flexbox widths
+  leftFlexbox.style.flex = `0 0 ${newLeftWidth}px`;
+  rightFlexbox.style.flex = `0 0 ${newRightWidth}px`;
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  document.body.style.cursor = ''; // Reset cursor
+});
