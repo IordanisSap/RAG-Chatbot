@@ -15,10 +15,11 @@ default_retrieval_config = {
     "score_threshold": config["retrieval"]["score-threshold"]
 }
 
-async def process_message(user_message, retrieval_config = None):
+async def process_message(user_message, collection, retrieval_config = None):
     if retrieval_config is None:
         retrieval_config = default_retrieval_config
-    
+    retrieval_config["persist_dir"] = validate_path(config["retrieval"]["persist-dir"], collection)
+    print(retrieval_config)
     llmBaseRes = agent.generate(user_message)
     llmRAGRes, RAGchunks = agent.generate_rag(user_message,retrieval_config)
     # llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message) #TODO
@@ -43,7 +44,6 @@ async def process_message(user_message, retrieval_config = None):
 
 async def search_query(user_message, collection, topk=5, score_threshold=0.6):
     persist_dir = validate_path(config["retrieval"]["persist-dir"], collection)
-    print(persist_dir)
     docs = agent.retrieve(user_message, persist_dir, topk, score_threshold)
     docs = [{
         "source": os.path.basename(doc.metadata['source']),

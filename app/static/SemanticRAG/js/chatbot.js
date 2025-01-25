@@ -29,7 +29,7 @@ async function getRelevantWork(passages, userMsg) {
     const res = await fetch('/SemanticRAG/passages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passages: passages, query:userMsg })
+        body: JSON.stringify({ collection: collection, passages: passages, query:userMsg })
     })
     const parsedRes = await res.text()
     return parsedRes
@@ -42,7 +42,7 @@ async function sendMessage(message, topk, score_threshold) {
     }), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: message })
+        body: JSON.stringify({ collection:collection, message: message })
     })
 
     const parsedRes = await res.json()
@@ -59,13 +59,13 @@ document.getElementById("input-text").addEventListener('keydown', function (even
     }
 })
 
-function getTopk() {
-    elem = document.getElementById("topk");
+function getTopkChat() {
+    elem = document.getElementById("topk-chat");
     return elem.value !== "" ? elem.value : elem.getAttribute("placeholder");
 }
 
-function getScoreThreshold() {
-    elem = document.getElementById("score");
+function getScoreThresholdChat() {
+    elem = document.getElementById("score-chat");
     return elem.value !== "" ? elem.value : elem.getAttribute("placeholder");
 }
 
@@ -103,8 +103,8 @@ async function onMessageSend() {
         document.getElementById("conversation").innerHTML = res
     })
 
-    topk = getTopk()
-    score_threshold = getScoreThreshold()
+    topk = getTopkChat()
+    score_threshold = getScoreThresholdChat()
 
     sendMessage(userMsg, topk, score_threshold).then(res => {
         llm_name = res.name

@@ -1,5 +1,5 @@
 async function search() {
-    message = document.getElementById("input-text").value
+    message = document.getElementById("input-text-search").value
     topk = getTopk();
     score_threshold = getScoreThreshold();
     collection = document.getElementById("collections").value
@@ -18,17 +18,20 @@ async function search() {
 
 let typingTimer;
 const doneTypingInterval = 500;
-const watchIds = ['input-text', 'topk', 'score']
+const watchIds = ['input-text-search', 'topk', 'score']
 
-const textarea = document.getElementById('input-text');
-
-for (id of watchIds) {
-    elem = document.getElementById(id)
-    elem.addEventListener('input', () => {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(search, doneTypingInterval);
-    });
+function setWatch() {
+    for (id of watchIds) {
+        elem = document.getElementById(id)
+        elem.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(search, doneTypingInterval);
+        });
+    }
 }
+
+setWatch()
+
 
 function getTopk() {
     elem = document.getElementById("topk");
@@ -72,6 +75,7 @@ select_collection.onchange = (event) => {
         select_collection.value = previousValue;
     } else {
         select_collection.setAttribute('data-previous-value', currentValue);
+        switchToSearch()
         getCollectionDocuments()
         search()
     }
@@ -91,13 +95,8 @@ document.getElementById('submitButton').addEventListener('click', function () {
 
 
 
-
-
-
-
-
 const divider = document.querySelector('.divider');
-const leftFlexbox = document.getElementById('search-div');
+const leftFlexbox = document.getElementById('left-div');
 const rightFlexbox = document.getElementById('documents-div');
 
 let isDragging = false;
@@ -123,3 +122,33 @@ document.addEventListener('mouseup', () => {
   isDragging = false;
   document.body.style.cursor = ''; // Reset cursor
 });
+
+
+
+
+let switchFunc = switchToSearch;
+
+function switchAction(){
+    switchFunc()
+    if (switchFunc === switchToSearch) switchFunc = switchToChat
+    else switchFunc = switchToSearch
+}
+async function switchToSearch() {
+    document.getElementById('search-div').style.display='flex'
+    document.getElementById('chat-div').style.display='none'
+    document.getElementById('switchLabel').innerHTML = "Switch to chatbot"
+    document.getElementById('search-icon-switch').style.display = 'none'
+    document.getElementById('chat-icon-switch').style.display = 'block'
+}
+
+async function switchToChat() {
+    document.getElementById('chat-div').style.display='flex'
+    document.getElementById('search-div').style.display='none'
+    document.getElementById('switchLabel').innerHTML = "Switch to search"
+    document.getElementById('chat-icon-switch').style.display = 'none'
+    document.getElementById('search-icon-switch').style.display = 'block'
+
+}
+
+
+switchToChat()

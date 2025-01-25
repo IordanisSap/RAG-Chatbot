@@ -13,7 +13,7 @@ DOWNLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/documents"
 
 @main.route('/')
 def menu():
-    return render_template('menu.html')
+    return redirect(url_for('main.search'))
 
 @main.route('/conversation', methods=['POST'])
 def conversation():
@@ -25,17 +25,16 @@ def conversation():
 def relevant_studies():
     relevant = request.json.get('passages')
     query = request.json.get('query')
-    return render_template('components/search_results.html', documents=relevant, keywords=query.split(' '))
+    collection = request.json.get('collection')
 
-    
-@main.route('/chat', methods=['GET'])
-def chatUI():
-    return render_template('chat.html')
+    return render_template('components/search_results.html', collection=collection, documents=relevant, keywords=query.split(' '))
+
 
 @main.route('/chat', methods=['POST'])
 async def chat():
     user_message = request.json.get('message')
-    
+    collection = request.json.get('collection')
+
     try: 
         topk = int(request.args.get('topk'))
         score_threshold = float(request.args.get('score_threshold'))
@@ -43,21 +42,21 @@ async def chat():
         
         retrieval_config = {
             "topk": topk,
-            "score_threshold": score_threshold
+            "score_threshold": score_threshold,
         }
         
     except (ValueError, TypeError) as e:
         retrieval_config = None
         
-    bot_response = await process_message(user_message, retrieval_config)
+    bot_response = await process_message(user_message, collection, retrieval_config)
     bot_name = get_llm_name()
     return jsonify({'response': bot_response, 'name': bot_name})
 
 
 @main.route('/pdf/<collection>/<src>', methods=['GET'])
 async def show_pdf(collection, src):
-    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
-    # src_url = url_for('main.download_file', filename=src, _external=True, _scheme='https')
+    # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
+    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
     keywords = request.args.getlist('keyword')[:10]
     processed_keywords = [
         part for word in keywords for part in (word.split('\n') if '\n' in word else [word])
@@ -70,7 +69,7 @@ async def show_pdf(collection, src):
 @main.route('/search', methods=['GET'])
 async def search():
     vectorstores = get_vectorstores()
-    return render_template('search.html', collections=vectorstores)
+    return render_template('default.html', collections=vectorstores)
 
 @main.route('/search/<query>', methods=['GET'])
 async def search_results(query):
