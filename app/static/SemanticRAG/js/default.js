@@ -75,7 +75,6 @@ select_collection.onchange = (event) => {
         select_collection.value = previousValue;
     } else {
         select_collection.setAttribute('data-previous-value', currentValue);
-        switchToSearch()
         getCollectionDocuments()
         search()
     }
