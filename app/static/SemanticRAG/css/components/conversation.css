@@ -4,8 +4,9 @@
 }
 
 .message-item {
+    all: unset;
     display: flex;
-    margin-top: 1rem
+    margin-top: 1rem;
 }
 
 .double-message-container > * {

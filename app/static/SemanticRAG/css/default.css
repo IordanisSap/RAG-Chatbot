@@ -4,8 +4,6 @@ html {
 }
 
 body {
-    height: 100%;
-    max-height: 100%;
     overflow-y: auto;
     margin: 0;
     min-height: 100vh;
@@ -50,28 +48,56 @@ header > * {
     gap: 1.5rem;
 }
 
+#documents-open {
+    justify-self: flex-end;
+    align-self: center;
+}
+
+.documents-open-btn {
+    background-color: #014a7f;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 10px;
+    color: white;
+}
+
 .switchBtn {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #eee;
-    width: 200px;
-    height: 45px;
+    background-color: #014a7f;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     border-radius: 10px;
     gap: 3px;
+}
+
+#switchLabel-placeholder {
+    position: relative;
+}
+
+#switchLabel {
+    color: white;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+#switchLabel-placeholder::before {
+    content: "Switch to chatbot";
+    visibility: hidden;  /* hides visually but still affects layout */
 }
 
 .icon-switch-container {
     border-radius: 100%;
     display: inline-flex;
     align-self: center;
+    padding-left: 0.5rem;
+    width:30px;
+    height:30px;
 }
-
-.search-icon {
-    color: rgb(150,150,150);
-    margin-left: 5px;
-}
-
 
 main {
     display: flex;
@@ -148,8 +174,6 @@ main {
     display:flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    position: relative;
 }
 
 #search-div {
@@ -170,15 +194,24 @@ main {
     padding-right: 3rem;
 }
 
-#retreived-text-container {
+#retrieved-text-container {
     display: none;
     margin-bottom: 6rem;
     padding: 3rem;
 }
 
+#retrieved-text > ul > li {
+    margin-bottom: 10px;
+}
+
+#results > ul > li {
+    margin-bottom: 10px;
+}
+
+
 #sticky-footer {
     width: 50%;
-    position: absolute;
+    position: fixed;
     bottom: 45%;
     align-self: center;
     border: 1px solid lightblue;
@@ -261,21 +294,13 @@ main {
     outline: none; 
 } 
 
-#send-button {
-    background-color: #4CAF50;
-    /* Green */
+.send-button {
+    background-color: #014a7f;
     color: white;
     padding: 6px 15px 6px 14px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
     align-self: center;
-}
-
-#send-button:hover {
-    background-color: #45a049;
-    transform: scale(1);
 }
 
 .divider {
@@ -303,14 +328,14 @@ main {
 }
 
 #documents-container {
-    display: inline-block;
     flex: 1;         
     min-height: 0;  
     overflow-y: auto;
     word-wrap: break-word; 
     width: 100%;
-    padding-right: 1rem;
 }
+
+
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -354,31 +379,6 @@ textarea:focus {
     font-weight: bold;
 }
 
-#runButton {
-    background-color: #bedbff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: large;
-    font-weight: bold;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 1em;
-    border-color: #a9a9a9;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-    transition: transform 0.1s ease-in-out;
-}
-
-button {
-    all: unset;
-    transition: transform 0.2s ease-in-out;
-}
-
-button:hover {
-    transform: scale(1.02);
-}
 
 button:active {
     box-shadow: none 0 4px 10px rgba(0, 0, 0, 0.7);
@@ -415,13 +415,36 @@ h1 {
 ul {
     list-style-type: none;
     padding: 0;
-    /* Remove default padding */
-    gap: 1rem
 }
 
-li {
+
+#retrieved-text > ul > li {
     margin-bottom: 10px;
 }
+
+#documents-container > ul > li {
+    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#documents-container > ul > li:hover {
+    background-color: #eee; 
+    color: white;
+}
+
+
+#documents-container > ul  > li > a {
+    text-decoration: none;
+    color: black;
+    margin-bottom: 0px;
+
+}
+
+
+
+
 
 h2 {
     text-align: center;

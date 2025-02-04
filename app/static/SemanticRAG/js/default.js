@@ -93,39 +93,6 @@ document.getElementById('submitButton').addEventListener('click', function () {
 });
 
 
-
-
-const divider = document.querySelector('.divider');
-const leftFlexbox = document.getElementById('left-div');
-const rightFlexbox = document.getElementById('documents-div');
-
-let isDragging = false;
-
-divider.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  document.body.style.cursor = 'ew-resize'; // Change cursor during drag
-});
-
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
-
-  const containerRect = divider.parentElement.getBoundingClientRect();
-  const newLeftWidth = e.clientX - containerRect.left;
-  const newRightWidth = containerRect.width - newLeftWidth - divider.offsetWidth;
-
-  // Update flexbox widths
-  leftFlexbox.style.flex = `0 0 ${newLeftWidth}px`;
-  rightFlexbox.style.flex = `0 0 ${newRightWidth}px`;
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-  document.body.style.cursor = ''; // Reset cursor
-});
-
-
-
-
 let switchFunc = switchToSearch;
 
 function switchAction(){

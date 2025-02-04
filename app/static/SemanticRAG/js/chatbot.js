@@ -76,9 +76,9 @@ function clearUserMessage() {
 
 function setRelevantText(text) {
     if (text) {
-        document.getElementById("retreived-text-container").style.display = "block"
-        document.getElementById("retreived-text").innerHTML = text
-    } else document.getElementById("retreived-text-container").style.display = "none"
+        document.getElementById("retrieved-text-container").style.display = "block"
+        document.getElementById("retrieved-text").innerHTML = text
+    } else document.getElementById("retrieved-text-container").style.display = "none"
 }
 
 function setStickyBottom() {

@@ -24,11 +24,11 @@
 
 
 {% macro chatbot_message(name, text, id) -%}
-    {{ message(url_for('static', filename='SemanticRAG/img/chatbot.svg'), chatbot_content(name, text, id)) }}
+    {{ message(url_for('static', filename='SemanticRAG/img/chatbot-conversation.svg'), chatbot_content(name, text, id)) }}
 {%- endmacro %}
 
 {% macro chatbot_thinking_message(name, id) -%}
-    {{ message(url_for('static', filename='SemanticRAG/img/chatbot.svg'), chatbot_thinking_content(name, id)) }}
+    {{ message(url_for('static', filename='SemanticRAG/img/chatbot-conversation.svg'), chatbot_thinking_content(name, id)) }}
 {%- endmacro %}
 
 {% macro user_message(name, text, id) -%}
