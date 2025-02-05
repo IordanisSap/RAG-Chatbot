@@ -13,7 +13,13 @@ async function search() {
     })
 
     const parsedRes = await res.text()
-    document.getElementById("results").innerHTML = parsedRes
+    const keywords = message.toLowerCase().split(/\s+/)
+    console.log(keywords);
+    const modifiedRes = parsedRes
+        .split(/\s+/)
+        .map(word => keywords.includes(normalizeWord(word)) ? '<strong>'+word+'</strong>': word) // Modify specific words
+        .join(" "); // Reconstruct the string
+    document.getElementById("results").innerHTML = modifiedRes
 }
 
 let typingTimer;
@@ -118,3 +124,11 @@ async function switchToChat() {
 
 
 switchToChat()
+
+
+const normalizeWord = (word) => {
+    return word
+        .toLowerCase()
+        .replace(/[.,!?;:"'()]/g, '')
+        .trim();
+}

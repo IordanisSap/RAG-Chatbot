@@ -1,4 +1,3 @@
-
 <ul>
     {% for document in documents %}
         <li>
@@ -6,27 +5,8 @@
                 {{ document.source }}
             </a> (page: {{ document.page }})
             {% set words = document.content %}
-            {% set normalized_keywords = keywords | map('lower') | list %}
             {% for word in words %}
-                    {%- set clean_word = word 
-                        | lower 
-                        | replace('.', '') 
-                        | replace(',', '') 
-                        | replace('!', '') 
-                        | replace('?', '') 
-                        | replace(':', '') 
-                        | replace(';', '') 
-                        | replace('"', '') 
-                        | replace("'", '') 
-                        | replace('(', '') 
-                        | replace(')', '') 
-                        | trim
-                    -%}
-                {%- if clean_word  in normalized_keywords -%}
-                    <strong>{{ word }}</strong>
-                {%- else -%}
-                    {{ word }}
-                {%- endif -%}
+                {{ word }}
                 {{ " " }}
             {% endfor %}
         </li>
