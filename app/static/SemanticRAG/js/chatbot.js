@@ -29,7 +29,7 @@ async function getRelevantWork(passages, userMsg) {
     const res = await fetch('/SemanticRAG/passages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ collection: collection, passages: passages, query:userMsg })
+        body: JSON.stringify({ collection: collection, passages: passages, query: userMsg })
     })
     const parsedRes = await res.text()
     return parsedRes
@@ -42,7 +42,7 @@ async function sendMessage(message, topk, score_threshold) {
     }), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ collection:collection, message: message })
+        body: JSON.stringify({ collection: collection, message: message })
     })
 
     const parsedRes = await res.json()
@@ -134,7 +134,13 @@ async function onMessageSend() {
 
         if (rag_passages)
             getRelevantWork(rag_passages, userMsg).then(res => {
-                setRelevantText(res)
+                const parsedRes = res
+                const keywords = userMsg.toLowerCase().split(/\s+/)
+                const modifiedRes = parsedRes
+                    .split(/\s+/)
+                    .map(word => isKeyword(word, keywords) ? '<strong>' + word + '</strong>' : word)
+                    .join(" ");
+                setRelevantText(modifiedRes)
             })
     })
 }

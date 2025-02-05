@@ -17,8 +17,8 @@ async function search() {
     console.log(keywords);
     const modifiedRes = parsedRes
         .split(/\s+/)
-        .map(word => keywords.includes(normalizeWord(word)) ? '<strong>'+word+'</strong>': word) // Modify specific words
-        .join(" "); // Reconstruct the string
+        .map(word => isKeyword(word, keywords) ? '<strong>'+word+'</strong>': word)
+        .join(" ");
     document.getElementById("results").innerHTML = modifiedRes
 }
 
@@ -124,11 +124,3 @@ async function switchToChat() {
 
 
 switchToChat()
-
-
-const normalizeWord = (word) => {
-    return word
-        .toLowerCase()
-        .replace(/[.,!?;:"'()]/g, '')
-        .trim();
-}
