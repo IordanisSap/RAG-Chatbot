@@ -107,24 +107,10 @@ async function onMessageSend() {
     score_threshold = getScoreThresholdChat()
 
     sendMessage(userMsg, topk, score_threshold).then(res => {
-        llm_name = res.name
-        baseRes = res.response.base
+        console.log(res)
+        addBotMessage(res)
 
-        ragRes = res.response.rag.response
-        rag_passages = res.response.rag.chunks
-
-        addBotMessage(
-            [
-                {
-                    "name": llm_name,
-                    "content": baseRes
-                },
-                {
-                    "name": llm_name + " + RAG",
-                    "content": ragRes
-                }
-            ]
-        )
+        rag_passages = res[1].chunks
 
 
         getConversation(messages).then(res => {

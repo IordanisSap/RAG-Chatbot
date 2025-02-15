@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, send_from_directory, abort, redirect, url_for, flash
-from .chatbot.chat import process_message, get_llm_name, search_query, get_vectorstores, index_documents
+from .chatbot.chat import process_message, search_query, get_vectorstores, index_documents
 from .utils import validate_path
 
 import os
@@ -13,7 +13,11 @@ DOWNLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/documents"
 
 @main.route('/')
 def menu():
-    return redirect(url_for('main.search'))
+    vectorstores = get_vectorstores()
+    return render_template('default.html', collections=vectorstores)
+
+
+# ------------------- Templates -------------------
 
 @main.route('/conversation', methods=['POST'])
 def conversation():
@@ -28,6 +32,36 @@ def relevant_studies():
     collection = request.json.get('collection')
 
     return render_template('components/search_results.html', collection=collection, documents=relevant, keywords=query.split(' '))
+
+
+@main.route('/pdf/<collection>/<src>', methods=['GET'])
+async def show_pdf(collection, src):
+    # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
+    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
+    keywords = request.args.getlist('keyword')[:10]
+    processed_keywords = [
+        part for word in keywords for part in (word.split('\n') if '\n' in word else [word])
+    ]
+
+    keyword = ' '.join(processed_keywords)
+    return render_template('components/pdf.html', src=src_url, keyword=keyword)
+       
+
+@main.route('/search/<query>', methods=['GET'])
+async def search_results(query):
+    collection = request.args.get('collection')
+    try:
+        topk = int(request.args.get('topk'))
+        score_threshold = float(request.args.get('score_threshold'))
+        if topk <= 0 or score_threshold<= 0 : raise ValueError("topk value must be positive")
+        documents = await search_query(query, collection, topk, score_threshold)
+        return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
+    except (ValueError, TypeError) as e:
+        documents = await search_query(query, collection)
+        return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
+
+
+# ------------------- API -------------------
 
 
 @main.route('/chat', methods=['POST'])
@@ -49,41 +83,7 @@ async def chat():
         retrieval_config = None
         
     bot_response = await process_message(user_message, collection, retrieval_config)
-    bot_name = get_llm_name()
-    return jsonify({'response': bot_response, 'name': bot_name})
-
-
-@main.route('/pdf/<collection>/<src>', methods=['GET'])
-async def show_pdf(collection, src):
-    # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
-    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
-    keywords = request.args.getlist('keyword')[:10]
-    processed_keywords = [
-        part for word in keywords for part in (word.split('\n') if '\n' in word else [word])
-    ]
-
-    keyword = ' '.join(processed_keywords)
-    return render_template('components/pdf.html', src=src_url, keyword=keyword)
-       
- 
-@main.route('/search', methods=['GET'])
-async def search():
-    vectorstores = get_vectorstores()
-    return render_template('default.html', collections=vectorstores)
-
-@main.route('/search/<query>', methods=['GET'])
-async def search_results(query):
-    collection = request.args.get('collection')
-    try:
-        topk = int(request.args.get('topk'))
-        score_threshold = float(request.args.get('score_threshold'))
-        if topk <= 0 or score_threshold<= 0 : raise ValueError("topk value must be positive")
-        documents = await search_query(query, collection, topk, score_threshold)
-        return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
-    except (ValueError, TypeError) as e:
-        documents = await search_query(query, collection)
-        return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
-
+    return jsonify(bot_response)
 
 
 @main.route('/download/<collection>/<filename>', methods=['GET'])
@@ -110,12 +110,13 @@ async def get_collections():
     except ValueError:
         return []
         
-UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/tmp"
-ALLOWED_EXTENSIONS = {'pdf'}
-
 
 @main.route('/collection', methods=['POST'])
 async def upload_collection():
+    
+    UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/tmp"
+    ALLOWED_EXTENSIONS = {'pdf'}
+    
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
     temp_dir = tempfile.mkdtemp(dir=UPLOAD_FOLDER)

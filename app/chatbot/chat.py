@@ -22,23 +22,34 @@ async def process_message(user_message, collection, retrieval_config = None):
     print(retrieval_config)
     llmBaseRes = agent.generate(user_message)
     llmRAGRes, RAGchunks = agent.generate_rag(user_message,retrieval_config)
-    # llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message) #TODO
+    llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message) #TODO
 
-    response = {
-        "base": llmBaseRes,
-        "rag": {
-            "response": llmRAGRes,
+    llm_name = get_llm_name()
+    
+    response = [
+        {
+            "name": llm_name,
+            "content": llmBaseRes
+        },
+        {
+            "name": llm_name + "+RAG",
+            "content": llmRAGRes,
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata['page'],
                 "content": x.page_content.split(" ")
             } for x in RAGchunks]
         },
-        # "kgrag": {
-        #     "response": llmKGRAGRes,
-        #     "chunks": "\n\n".join([f"{x.metadata['source']} (page {x.metadata['page']}): {x.page_content}" for x in KGRAGchunks])
-        # }
-    }
+        {
+            "name": llm_name + "+KG RAG",
+            "content": llmKGRAGRes,
+            "chunks": [{
+                "source": os.path.basename(x.metadata['source']),
+                "page": x.metadata['page'],
+                "content": x.page_content.split(" ")
+            } for x in KGRAGchunks]
+        },
+    ]
     
     return response
 
