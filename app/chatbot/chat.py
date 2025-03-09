@@ -78,8 +78,16 @@ def get_vectorstores(persist_dir = None):
     if persist_dir is None:
         persist_dir = config["retrieval"]["persist-dir"]
         
-    vectorstores = os.listdir(persist_dir)
-    return vectorstores
+    if os.path.exists(persist_dir):
+        return os.listdir(persist_dir)
+    return []
 
 def get_llm_name():
     return config["generation"]["model"]
+
+
+def get_tmp_dir():
+    return config["tmp-dir"]
+
+def get_doc_dir():
+    return config["doc-dir"]

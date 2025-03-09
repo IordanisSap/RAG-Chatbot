@@ -2,7 +2,7 @@
 #   persist-dir: app/chatbot/tmp/vectorstore
 
 retrieval:
-  persist-dir: /mnt/10TB/iordanissapidis/SemanticRAG/vectorstores
+  persist-dir: /mnt/10TB/iordanissapidis/SemanticRAG/retrieval_store
   score-threshold: 0.6
   topk: 6
 
@@ -16,3 +16,5 @@ generation:
       You are given the following data:
 
 
+tmp-dir: /mnt/10TB/iordanissapidis/SemanticRAG/tmp
+doc-dir: /mnt/10TB/iordanissapidis/SemanticRAG/documents

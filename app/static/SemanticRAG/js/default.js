@@ -55,11 +55,17 @@ const doc_container = document.getElementById("documents-container")
 async function getCollectionDocuments() {
     const collection = document.getElementById("collections").value
 
+    if (collection === 'new') {
+        return;
+    }
+
     const res = await fetch(`/SemanticRAG/collection/${collection}`, {
         method: 'GET',
     })
 
     const parsedRes = await res.text()
+
+    // document.getElementById("documentsLabel").value =
 
     doc_container.innerHTML = parsedRes
 }
@@ -71,6 +77,9 @@ getCollectionDocuments()
 const modal = new bootstrap.Modal(document.getElementById('newCollectionModal'))
 select_collection = document.getElementById('collections')
 select_collection.setAttribute('data-previous-value', select_collection.value);
+
+
+if (select_collection.value === "new") modal.show();
 
 select_collection.onchange = (event) => {
     const previousValue = select_collection.getAttribute('data-previous-value');
@@ -87,6 +96,7 @@ select_collection.onchange = (event) => {
 }
 
 search()
+
 
 document.getElementById('submitButton').addEventListener('click', function () {
     form = document.getElementById('newCollectionForm')

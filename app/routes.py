@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, send_from_directory, abort, redirect, url_for, flash
-from .chatbot.chat import process_message, search_query, get_vectorstores, index_documents
+from .chatbot.chat import process_message, search_query, get_vectorstores, index_documents, get_tmp_dir, get_doc_dir
 from .utils import validate_path
 
 import os
@@ -8,7 +8,7 @@ import shutil
 
 main = Blueprint('main', __name__, url_prefix='/SemanticRAG')
 
-DOWNLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/documents"
+DOWNLOAD_FOLDER = get_doc_dir()
 
 
 @main.route('/')
@@ -114,7 +114,7 @@ async def get_collections():
 @main.route('/collection', methods=['POST'])
 async def upload_collection():
     
-    UPLOAD_FOLDER = "/mnt/10TB/iordanissapidis/SemanticRAG/tmp"
+    UPLOAD_FOLDER = get_tmp_dir()
     ALLOWED_EXTENSIONS = {'pdf'}
     
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -147,4 +147,4 @@ async def upload_collection():
     await index_documents(temp_dir, new_name)
     shutil.copytree(temp_dir, os.path.join(DOWNLOAD_FOLDER,new_name), dirs_exist_ok=True)
     shutil.rmtree(temp_dir)
-    return redirect(url_for('main.search'))
+    return redirect(url_for('main.menu'))
