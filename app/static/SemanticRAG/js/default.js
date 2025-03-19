@@ -17,7 +17,7 @@ async function search() {
     console.log(keywords);
     const modifiedRes = parsedRes
         .split(/\s+/)
-        .map(word => isKeyword(word, keywords) ? '<strong>'+word+'</strong>': word)
+        .map(word => isKeyword(word, keywords) ? '<strong>' + word + '</strong>' : word)
         .join(" ");
     document.getElementById("results").innerHTML = modifiedRes
 }
@@ -110,22 +110,22 @@ document.getElementById('submitButton').addEventListener('click', function () {
 
 let switchFunc = switchToSearch;
 
-function switchAction(){
+function switchAction() {
     switchFunc()
     if (switchFunc === switchToSearch) switchFunc = switchToChat
     else switchFunc = switchToSearch
 }
 async function switchToSearch() {
-    document.getElementById('search-div').style.display='flex'
-    document.getElementById('chat-div').style.display='none'
+    document.getElementById('search-div').style.display = 'flex'
+    document.getElementById('chat-div').style.display = 'none'
     document.getElementById('switchLabel').innerHTML = "Switch to chatbot"
     document.getElementById('search-icon-switch').style.display = 'none'
     document.getElementById('chat-icon-switch').style.display = 'block'
 }
 
 async function switchToChat() {
-    document.getElementById('chat-div').style.display='flex'
-    document.getElementById('search-div').style.display='none'
+    document.getElementById('chat-div').style.display = 'flex'
+    document.getElementById('search-div').style.display = 'none'
     document.getElementById('switchLabel').innerHTML = "Switch to search"
     document.getElementById('chat-icon-switch').style.display = 'none'
     document.getElementById('search-icon-switch').style.display = 'block'
@@ -134,3 +134,43 @@ async function switchToChat() {
 
 
 switchToChat()
+
+const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 'auto',          // Number of slides to show at once
+    spaceBetween: 20,          // Gap between slides in px
+    loop: true,                // Whether to loop through slides
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+    },
+    navigation: {
+        nextEl: ".swiper-button-n",
+        prevEl: ".swiper-button-p"
+    },
+    on: {
+        // 'progress' fires for each movement; param 'progress' is in [0..1]
+        progress(swiperInstance, progressValue) {
+            const prevBtn = document.querySelector(".swiper-button-p");
+            const nextBtn = document.querySelector(".swiper-button-n");
+  
+            // At the extreme left (progressValue = 0)
+            if (progressValue === 0) {
+              prevBtn.style.display = "none";
+            } else {
+              prevBtn.style.display = "block";
+            }
+  
+            // At the extreme right (progressValue = 1)
+            if (progressValue === 1) {
+              nextBtn.style.display = "none";
+            } else {
+              nextBtn.style.display = "block";
+            }
+          }
+      }
+});
+
+
+function onRecommendationClick(text) {
+    document.getElementById("input-text").value = text.trim()
+}

@@ -51,9 +51,13 @@ async def show_pdf(collection, src):
 async def search_results(query):
     collection = request.args.get('collection')
     try:
+        print("---------------------------------------")
+        print(request.args)
         topk = int(request.args.get('topk'))
         score_threshold = float(request.args.get('score_threshold'))
-        if topk <= 0 or score_threshold<= 0 : raise ValueError("topk value must be positive")
+        print(topk, score_threshold)
+        if topk <= 0 : raise ValueError("topk value must be positive")
+        print(topk, score_threshold)
         documents = await search_query(query, collection, topk, score_threshold)
         return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
     except (ValueError, TypeError) as e:
@@ -72,7 +76,7 @@ async def chat():
     try: 
         topk = int(request.args.get('topk'))
         score_threshold = float(request.args.get('score_threshold'))
-        if topk <= 0 or score_threshold <= 0 : raise ValueError("topk value must be positive")
+        if topk <= 0 : raise ValueError("topk value must be positive")
         
         retrieval_config = {
             "topk": topk,
@@ -115,7 +119,7 @@ async def get_collections():
 async def upload_collection():
     
     UPLOAD_FOLDER = get_tmp_dir()
-    ALLOWED_EXTENSIONS = {'pdf'}
+    ALLOWED_EXTENSIONS = {'pdf', 'csv'}
     
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 

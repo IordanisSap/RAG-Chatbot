@@ -81,9 +81,9 @@ function setRelevantText(text) {
     } else document.getElementById("retrieved-text-container").style.display = "none"
 }
 
-function setStickyBottom() {
-    document.getElementById("sticky-footer").style.bottom = '35px';
-    document.getElementById("sticky-footer").style.translate = 'translate(-50%, 0%)';
+function moveChatToBottom() {
+    document.getElementById("chat-footer").style.bottom = '35px';
+    document.getElementById("chat-footer").style.translate = 'translate(-50%, 0%)';
 }
 
 function disableSendButton(state) {
@@ -97,7 +97,7 @@ async function onMessageSend() {
     setRelevantText("")
     document.getElementById("input-text").value = ""
     disableSendButton(true)
-    setStickyBottom()
+    moveChatToBottom()
 
     getConversation(messages).then(res => {
         document.getElementById("conversation").innerHTML = res

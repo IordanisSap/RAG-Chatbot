@@ -22,9 +22,9 @@ header {
     margin-top: 1.5rem;
 }
 
-header > * {
+header>* {
     grid-area: overlap;
-  }
+}
 
 .logo {
     width: 15%;
@@ -38,8 +38,8 @@ header > * {
     justify-self: center;
     align-self: center;
     flex-direction: column;
-    flex:1;
-    gap:1vh
+    flex: 1;
+    gap: 1vh
 }
 
 .header-collection {
@@ -80,14 +80,15 @@ header > * {
 
 #switchLabel {
     color: white;
-    position:absolute;
-    top:0;
-    left:0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #switchLabel-placeholder::before {
     content: "Switch to chatbot";
-    visibility: hidden;  /* hides visually but still affects layout */
+    visibility: hidden;
+    /* hides visually but still affects layout */
 }
 
 .icon-switch-container {
@@ -95,8 +96,8 @@ header > * {
     display: inline-flex;
     align-self: center;
     padding-left: 0.5rem;
-    width:30px;
-    height:30px;
+    width: 30px;
+    height: 30px;
 }
 
 main {
@@ -106,7 +107,7 @@ main {
     width: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
-    flex:1;
+    flex: 1;
     gap: 1rem;
     flex-grow: 1;
 }
@@ -117,13 +118,13 @@ main {
     padding-top: 0.75rem;
     flex-direction: row;
     width: 100%;
-    flex:1;
+    flex: 1;
     min-height: 0;
 }
 
 #search-div {
-    flex:3.5;
-    display:flex;
+    flex: 3.5;
+    display: flex;
     flex-direction: column;
     width: 100%;
     padding-left: 3rem;
@@ -132,7 +133,7 @@ main {
 }
 
 #search-options {
-    width:80%;
+    width: 80%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -142,20 +143,19 @@ main {
     padding: 0.75rem;
     column-gap: 1rem;
     display: flex;
-    justify-content: space-between;
     background-color: #eee;
     align-items: center;
     border-radius: 25px;
 }
 
 .search-option-big {
-    flex:6
+    flex: 6
 }
 
 .search-option-small {
     display: flex;
     justify-content: center;
-    flex:1
+    flex: 1
 }
 
 #results {
@@ -164,20 +164,21 @@ main {
 
 
 #left-div {
-    flex:3.5;
-    display:flex;
+    flex: 3.5;
+    display: flex;
     flex-direction: column;
     width: 100%;
     overflow-y: auto;
 }
+
 #chat-div {
-    display:flex;
+    display: flex;
     flex-direction: column;
     width: 100%;
 }
 
 #search-div {
-    display:flex;
+    display: flex;
     flex-direction: column;
     width: 100%;
     overflow-y: auto;
@@ -200,47 +201,33 @@ main {
     padding: 3rem;
 }
 
-#retrieved-text > ul > li {
+#retrieved-text>ul>li {
     margin-bottom: 10px;
 }
 
-#results > ul > li {
+#results>ul>li {
     margin-bottom: 10px;
 }
 
 
-#sticky-footer {
-    width: 50%;
+#chat-footer {
+    width: 45%;
     position: fixed;
     bottom: 45%;
     align-self: center;
     border: 1px solid lightblue;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 25px;
     overflow: hidden;
 }
 
-.sticky-footer-container {
-    width: 100%;
-    padding: 1rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    column-gap: 2rem;
-    display: flex;
-    justify-content: space-between;
+.chat-footer-container {
     background-color: #eee;
-}
-
-#input-text-container {
-    width: 100%;
-    align-content: center;
-    flex:4;
 }
 
 #input-text-search {
     border: 0px solid;
     word-wrap: break-word;
-    /* Breaks words that are too long */
     overflow-wrap: break-word;
     word-break: break-all;
     min-width: 0;
@@ -248,12 +235,12 @@ main {
     flex-grow: 1;
     align-items: center;
     resize: none;
+    width: 100%;
 }
 
 #input-text {
     border: 0px solid;
     word-wrap: break-word;
-    /* Breaks words that are too long */
     overflow-wrap: break-word;
     word-break: break-all;
     display: flex;
@@ -275,9 +262,8 @@ main {
 .param {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    row-gap: 0.2rem;   
+    row-gap: 0.25rem;
 }
 
 .param-item {
@@ -291,8 +277,8 @@ main {
 }
 
 .param-item:focus {
-    outline: none; 
-} 
+    outline: none;
+}
 
 .send-button {
     background-color: #014a7f;
@@ -300,7 +286,7 @@ main {
     padding: 6px 15px 6px 14px;
     border: none;
     border-radius: 5px;
-    align-self: center;
+    align-self: flex-end;
 }
 
 .divider {
@@ -308,7 +294,7 @@ main {
     background-color: #ccc;
     cursor: ew-resize;
     user-select: none;
-  }
+}
 
 #documents-div {
     min-width: 0;
@@ -318,8 +304,8 @@ main {
     padding-right: 2rem;
     display: flex;
     flex-direction: column;
-    flex: 1;       
-    min-height: 0; 
+    flex: 1;
+    min-height: 0;
 }
 
 .section-title {
@@ -328,10 +314,10 @@ main {
 }
 
 #documents-container {
-    flex: 1;         
-    min-height: 0;  
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
-    word-wrap: break-word; 
+    word-wrap: break-word;
     width: 100%;
 }
 
@@ -339,13 +325,13 @@ main {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 textarea {
@@ -418,24 +404,24 @@ ul {
 }
 
 
-#retrieved-text > ul > li {
+#retrieved-text>ul>li {
     margin-bottom: 10px;
 }
 
-#documents-container > ul > li {
+#documents-container>ul>li {
     padding: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     transition: background-color 0.15s ease-in-out;
 }
 
-#documents-container > ul > li:hover {
-    background-color: #eee; 
+#documents-container>ul>li:hover {
+    background-color: #eee;
     color: white;
 }
 
 
-#documents-container > ul  > li > a {
+#documents-container>ul>li>a {
     text-decoration: none;
     color: black;
     margin-bottom: 0px;
@@ -461,8 +447,59 @@ h2 {
     align-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 .pdf-container {
     width: 90%;
     height: 90%;
     align-self: center;
+}
+
+
+.swiper {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.swiper-slide {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* :root {
+    --swiper-navigation-size: 24px !important;
+    } */
+
+.swiper-button-p,
+.swiper-button-n {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    aspect-ratio: 1;
+    background-color: rgba(1, 74, 127, 1);
+    border-radius: 50%;
+    color: white
+}
+
+.swiper:hover .swiper-button-p,
+.swiper:hover .swiper-button-n {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.swiper-button-p {
+    left: 2%;
+}
+
+.swiper-button-n {
+    right: 0.5%;
+}
+
+.swiper-arrow-icon {
+    padding: 0.25rem;
 }

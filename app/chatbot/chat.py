@@ -35,7 +35,7 @@ async def process_message(user_message, collection, retrieval_config = None):
             "content": llmRAGRes,
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
-                "page": x.metadata['page'],
+                "page": x.metadata.get('page', 0),
                 "content": x.page_content.split(" ")
             } for x in RAGchunks]
         },
@@ -44,7 +44,7 @@ async def process_message(user_message, collection, retrieval_config = None):
             "content": llmKGRAGRes,
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
-                "page": x.metadata['page'],
+                "page": x.metadata.get('page', 0),
                 "content": x.page_content.split(" ")
             } for x in KGRAGchunks]
         },
@@ -57,7 +57,7 @@ async def search_query(user_message, collection, topk=5, score_threshold=0.6):
     docs = agent.retrieve(user_message, persist_dir, topk, score_threshold)
     docs = [{
         "source": os.path.basename(doc.metadata['source']),
-        "page": doc.metadata['page'],
+        "page": doc.metadata.get('page', 0),
         "content": doc.page_content.split(" ")
     } for doc in docs]
     return docs
