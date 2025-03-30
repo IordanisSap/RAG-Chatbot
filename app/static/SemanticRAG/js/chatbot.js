@@ -74,12 +74,20 @@ function clearUserMessage() {
     document.getElementById("input-text").value = ""
 }
 
-function setRelevantText(text) {
+function setRelevantTextRAG(text) {
     if (text) {
-        document.getElementById("retrieved-text-container").style.display = "block"
-        document.getElementById("retrieved-text").innerHTML = text
-    } else document.getElementById("retrieved-text-container").style.display = "none"
+        document.getElementById("retrieved-text-rag-container").style.display = "block"
+        document.getElementById("retrieved-text-rag").innerHTML = text
+    } else document.getElementById("retrieved-text-rag-container").style.display = "none"
 }
+
+function setRelevantTextKGRAG(text) {
+    if (text) {
+        document.getElementById("retrieved-text-kgrag-container").style.display = "block"
+        document.getElementById("retrieved-text-kgrag").innerHTML = text
+    } else document.getElementById("retrieved-text-kgrag-container").style.display = "none"
+}
+
 
 function moveChatToBottom() {
     document.getElementById("chat-footer").style.bottom = '35px';
@@ -94,7 +102,8 @@ function disableSendButton(state) {
 async function onMessageSend() {
     userMsg = document.getElementById("input-text").value
     addUserMessage(userMsg)
-    setRelevantText("")
+    setRelevantTextRAG("")
+    setRelevantTextKGRAG("")
     document.getElementById("input-text").value = ""
     disableSendButton(true)
     moveChatToBottom()
@@ -107,10 +116,10 @@ async function onMessageSend() {
     score_threshold = getScoreThresholdChat()
 
     sendMessage(userMsg, topk, score_threshold).then(res => {
-        console.log(res)
         addBotMessage(res)
 
         rag_passages = res[1].chunks
+        kgrag_passages = res[2].chunks
 
 
         getConversation(messages).then(res => {
@@ -126,7 +135,18 @@ async function onMessageSend() {
                     .split(/\s+/)
                     .map(word => isKeyword(word, keywords) ? '<strong>' + word + '</strong>' : word)
                     .join(" ");
-                setRelevantText(modifiedRes)
+                setRelevantTextRAG(modifiedRes)
+            })
+
+        if (kgrag_passages)
+            getRelevantWork(kgrag_passages, userMsg).then(res => {
+                const parsedRes = res
+                const keywords = userMsg.toLowerCase().split(/\s+/)
+                const modifiedRes = parsedRes
+                    .split(/\s+/)
+                    .map(word => isKeyword(word, keywords) ? '<strong>' + word + '</strong>' : word)
+                    .join(" ");
+                setRelevantTextKGRAG(modifiedRes)
             })
     })
 }

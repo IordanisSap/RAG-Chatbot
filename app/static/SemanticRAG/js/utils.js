@@ -4,7 +4,7 @@ const stopwords = ['i','me','my','myself','we','our','ours','ourselves','you','y
 const normalizeWord = (word) => {
     return word
         .toLowerCase()
-        .replace(/[.,!?;:"'()]/g, '')
+        .replace(/[.,!?;:"'‘’()]/g, '')
         .trim();
 }
 

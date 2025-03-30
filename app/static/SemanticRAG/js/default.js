@@ -4,7 +4,7 @@ async function search() {
     score_threshold = getScoreThreshold();
     collection = document.getElementById("collections").value
     if (message.replace(/\s/g, "").length < 1) return
-    const res = await fetch(`/SemanticRAG/search/${message}?` + new URLSearchParams({
+    const res = await fetch(`/SemanticRAG/search/${encodeURIComponent(message)}?` + new URLSearchParams({
         topk: topk,
         score_threshold: score_threshold,
         collection: collection
@@ -14,7 +14,6 @@ async function search() {
 
     const parsedRes = await res.text()
     const keywords = message.toLowerCase().split(/\s+/)
-    console.log(keywords);
     const modifiedRes = parsedRes
         .split(/\s+/)
         .map(word => isKeyword(word, keywords) ? '<strong>' + word + '</strong>' : word)

@@ -45,11 +45,13 @@
 
   <body>
     <header>
+      {#
       <img
         src="{{ url_for('static', filename='SemanticRAG/img/ics.png') }}"
         alt="ICS-FORTH Logo"
         class="logo"
       />
+      #}
       <div class="header-container">
         <h2>KG-Enhanced RAG Demo</h2>
         <div class="header-collection">
@@ -151,9 +153,15 @@
         <div id="chat-div">
           <div style="overflow-y: auto">
             <div id="conversation"></div>
-            <div id="retrieved-text-container">
-              <h3>Relevant text</h3>
-              <div id="retrieved-text" class="message"></div>
+            <div class="d-flex">
+              <div class="retrieved-text-container" id="retrieved-text-rag-container">
+                <h3>Relevant text RAG</h3>
+                <div id="retrieved-text-rag" class="message"></div>
+              </div>
+              <div class="retrieved-text-container"  id="retrieved-text-kgrag-container">
+                <h3>Relevant text KG-RAG</h3>
+                <div id="retrieved-text-kgrag" class="message"></div>
+              </div>
             </div>
           </div>
 

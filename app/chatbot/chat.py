@@ -18,10 +18,13 @@ default_retrieval_config = {
 async def process_message(user_message, collection, retrieval_config = None):
     if retrieval_config is None:
         retrieval_config = default_retrieval_config
-    retrieval_config["persist_dir"] = validate_path(config["retrieval"]["persist-dir"], collection)
+    
+    persist_dir = validate_path(config["retrieval"]["persist-dir"], collection)
     llmBaseRes = agent.generate(user_message)
-    llmRAGRes, RAGchunks = agent.generate_rag(user_message,retrieval_config)
-    llmKGRAGRes, KGRAGchunks = agent.generate_kgrag(user_message,retrieval_config) #TODO
+    retrieval_config["extensions"] = ['pdf']
+    llmRAGRes, RAGchunks = agent.generate_rag_persist(user_message, persist_dir, retrieval_config)
+    retrieval_config["extensions"] = ['pdf','csv']
+    llmKGRAGRes, KGRAGchunks = agent.generate_rag_persist(user_message, persist_dir, retrieval_config) #TODO
 
     llm_name = get_llm_name()
     
@@ -54,7 +57,7 @@ async def process_message(user_message, collection, retrieval_config = None):
 
 async def search_query(user_message, collection, topk=5, score_threshold=0.6):
     persist_dir = validate_path(config["retrieval"]["persist-dir"], collection)
-    docs = agent.retrieve(user_message, persist_dir, topk, score_threshold)
+    docs = agent.retrieve_persist(user_message, persist_dir, {"topk": topk, "score_threshold": score_threshold})
     docs = [{
         "source": os.path.basename(doc.metadata['source']),
         "page": doc.metadata.get('page', 0),

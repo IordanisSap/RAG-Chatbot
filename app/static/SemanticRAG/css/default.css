@@ -195,10 +195,11 @@ main {
     padding-right: 3rem;
 }
 
-#retrieved-text-container {
+.retrieved-text-container {
     display: none;
     margin-bottom: 6rem;
     padding: 3rem;
+    flex: 1
 }
 
 #retrieved-text>ul>li {
