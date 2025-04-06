@@ -355,6 +355,7 @@ textarea:focus {
 
 .copyright-container {
     padding: 0.1rem;
+    gap: 0.5rem;
 }
 
 .copyright {
