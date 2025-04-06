@@ -35,6 +35,22 @@ fetch(fileUrl)
     if (!isNaN(targetRow)) {
       hot.scrollViewportTo(targetRow);
       hot.selectCell(targetRow, 0);
+    
+      setTimeout(() => {
+        const cell = hot.getCell(targetRow, 0);
+        if (cell) {
+          cell.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+          });
+        }
+      }, 100); // Short delay ensures Handsontable has rendered the cell
+      // Apply a custom class to the row
+      for (let col = 0; col < data.meta.fields.length; col++) {
+        hot.setCellMeta(targetRow, col, 'className', 'highlighted-cell');
+      }
+      hot.render(); // important to apply styles
     }
   })
   .catch(error => {

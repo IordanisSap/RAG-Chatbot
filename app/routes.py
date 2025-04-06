@@ -49,7 +49,7 @@ async def show_pdf(collection, src):
 async def show_csv(collection, src, row):
     print(src,row)
     # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
-    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='http')
+    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
     return render_template('components/csv.html', src=src_url, row=row)
 
 

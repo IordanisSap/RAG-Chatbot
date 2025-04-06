@@ -38,3 +38,9 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.highlighted-cell {
+  background-color: yellow !important;
+  /* font-weight: bold; */
+  color: black;
+}
