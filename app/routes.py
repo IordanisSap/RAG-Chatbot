@@ -22,7 +22,6 @@ def menu():
 @main.route('/conversation', methods=['POST'])
 def conversation():
     messages = request.json.get('messages')
-    print(messages)
     return render_template('components/conversation.html', messages=messages)
 
 @main.route('/passages', methods=['POST'])
@@ -45,20 +44,24 @@ async def show_pdf(collection, src):
 
     keyword = ' '.join(processed_keywords)
     return render_template('components/pdf.html', src=src_url, keyword=keyword)
-       
+
+@main.route('/csv/<collection>/<src>/<row>', methods=['GET'])
+async def show_csv(collection, src, row):
+    print(src,row)
+    # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
+    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='http')
+    return render_template('components/csv.html', src=src_url, row=row)
+
 
 @main.route('/search/<query>', methods=['GET'])
 async def search_results(query):
     collection = request.args.get('collection')
     try:
-        print("---------------------------------------")
-        print(request.args)
         topk = int(request.args.get('topk'))
         score_threshold = float(request.args.get('score_threshold'))
-        print(topk, score_threshold)
         if topk <= 0 : raise ValueError("topk value must be positive")
-        print(topk, score_threshold)
         documents = await search_query(query, collection, topk, score_threshold)
+        print(documents)
         return render_template('components/search_results.html', collection=collection, documents=documents, keywords = query.split(' '))
     except (ValueError, TypeError) as e:
         documents = await search_query(query, collection)

@@ -39,6 +39,7 @@ async def process_message(user_message, collection, retrieval_config = None):
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata.get('page', 0),
+                "row": x.metadata.get('row', 0),
                 "content": x.page_content.split(" ")
             } for x in RAGchunks]
         },
@@ -48,6 +49,7 @@ async def process_message(user_message, collection, retrieval_config = None):
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata.get('page', 0),
+                "row": x.metadata.get('row', 0),
                 "content": x.page_content.split(" ")
             } for x in KGRAGchunks]
         },
@@ -61,6 +63,7 @@ async def search_query(user_message, collection, topk=5, score_threshold=0.6):
     docs = [{
         "source": os.path.basename(doc.metadata['source']),
         "page": doc.metadata.get('page', 0),
+        "row": doc.metadata.get('row', 0),
         "content": doc.page_content.split(" ")
     } for doc in docs]
     return docs

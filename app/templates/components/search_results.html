@@ -1,9 +1,15 @@
 <ul>
     {% for document in documents %}
         <li>
-            <a href="{{ url_for('main.show_pdf',collection=collection, src=document.source, keyword=document.content) }}">
-                {{ document.source }}
-            </a> (page: {{ document.page }})
+            {% if document.source.endswith('.csv') %}
+                <a href="{{ url_for('main.show_csv',collection=collection, src=document.source, row=document.row) }}">
+                    {{ document.source }}
+                </a> (page: {{ document.page }})
+            {% else %}
+                <a href="{{ url_for('main.show_pdf',collection=collection, src=document.source, keyword=document.content) }}">
+                    {{ document.source }}
+                </a> (page: {{ document.page }})
+            {% endif %}
             {% set words = document.content %}
             {% for word in words %}
                 {{ word }}
