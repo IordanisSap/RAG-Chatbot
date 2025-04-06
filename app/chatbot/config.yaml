@@ -9,7 +9,7 @@ retrieval:
 generation:
   model: llama3.1:8b
   prompts:
-    system: "Respond to all questions in a direct manner and explain your answer briefly. If provided with fatcs, pay very close attention to it"
+    system: "Respond to all questions in a direct manner and explain your answer briefly. If provided with facts, pay very close attention to it"
     rag_prompt: >
       Examine all the provided data carefully and answer according to the given data. 
       If the data is completely irrelevant,you must mention that no relevant data are provided and answer according to your knowledge.
