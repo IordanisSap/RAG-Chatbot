@@ -19,6 +19,7 @@ To install and run the RAG Chatbot, follow these steps:
     ```bash
     pip install -r requirements.txt
     ```
+    Make sure to also install the [KG-RAG](https://github.com/IordanisSap/KG-RAG) repo locally and add the path to `requirements.txt`
 
 4. Download and install an embeddings model e.g. [nomic-embed-text](https://ollama.com/library/nomic-embed-text)
 
