@@ -97,9 +97,21 @@ select_collection.onchange = (event) => {
 search()
 
 
+function showLoader() {
+    document.getElementById('loader').classList.remove('d-none');
+    document.getElementById('loader').classList.add('d-flex');
+}
+
+
+// function hideLoader() {
+//     document.getElementById('loader').classList.remove('d-flex');
+//     document.getElementById('loader').classList.add('d-none');
+// }
+
 document.getElementById('submitButton').addEventListener('click', function () {
     form = document.getElementById('newCollectionForm')
     if (form.checkValidity()) {
+        showLoader()
         form.submit()
         modal.hide();
     }
@@ -151,22 +163,22 @@ const swiper = new Swiper(".mySwiper", {
         progress(swiperInstance, progressValue) {
             const prevBtn = document.querySelector(".swiper-button-p");
             const nextBtn = document.querySelector(".swiper-button-n");
-  
+
             // At the extreme left (progressValue = 0)
             if (progressValue === 0) {
-              prevBtn.style.display = "none";
+                prevBtn.style.display = "none";
             } else {
-              prevBtn.style.display = "block";
+                prevBtn.style.display = "block";
             }
-  
+
             // At the extreme right (progressValue = 1)
             if (progressValue === 1) {
-              nextBtn.style.display = "none";
+                nextBtn.style.display = "none";
             } else {
-              nextBtn.style.display = "block";
+                nextBtn.style.display = "block";
             }
-          }
-      }
+        }
+    }
 });
 
 
