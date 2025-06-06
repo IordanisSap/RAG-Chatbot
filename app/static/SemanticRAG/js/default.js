@@ -73,6 +73,7 @@ async function getCollectionDocuments() {
 getCollectionDocuments()
 
 
+
 const modal = new bootstrap.Modal(document.getElementById('newCollectionModal'))
 select_collection = document.getElementById('collections')
 select_collection.setAttribute('data-previous-value', select_collection.value);
@@ -84,14 +85,18 @@ select_collection.onchange = (event) => {
     const previousValue = select_collection.getAttribute('data-previous-value');
     const currentValue = event.target.value;
     if (currentValue === "new") {
-        modal.show();
-        document.getElementById('newCollectionForm').reset()
+        openModal()
         select_collection.value = previousValue;
     } else {
         select_collection.setAttribute('data-previous-value', currentValue);
         getCollectionDocuments()
         search()
     }
+}
+
+function openModal() {
+    modal.show();
+    document.getElementById('newCollectionForm').reset()
 }
 
 search()
