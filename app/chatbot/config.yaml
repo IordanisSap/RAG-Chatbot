@@ -11,8 +11,10 @@ generation:
   prompts:
     system: "Respond to all questions in a direct manner and explain your answer briefly. If provided with facts, pay very close attention to it"
     rag_prompt: >
-      Examine all the provided data carefully and answer according to the given data. 
-      If the data is completely irrelevant,you must mention that no relevant data are provided and answer according to your knowledge.
+      Examine all the provided data and answer carefully. Clearly state only the documents you are using to answer the question and the conclusion.
+      Multiple documents may be needed to answer.
+      If the data is completely irrelevant,you must mention that no relevant data are provided and do not answer according to your knowledge.
+      Be relatively brief.
       You are given the following data:
 
 
