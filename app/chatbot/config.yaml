@@ -3,18 +3,19 @@
 
 retrieval:
   persist-dir: /mnt/10TB/iordanissapidis/SemanticRAG/retrieval_store
-  score-threshold: 0.6
-  topk: 6
+  score-threshold: 0.4
+  topk: 5
 
 generation:
   model: llama3.1:8b
   prompts:
     system: "Respond to all questions in a direct manner and explain your answer briefly. If provided with facts, pay very close attention to it"
     rag_prompt: >
-      Examine all the provided data and answer carefully. Clearly state only the documents you are using to answer the question and the conclusion.
-      Multiple documents may be needed to answer.
-      If the data is completely irrelevant,you must mention that no relevant data are provided and do not answer according to your knowledge.
-      Be relatively brief.
+      Review all provided data carefully.
+      Start with your conclusion. Then list only the documents used, each with a brief explanation.
+      Use multiple documents if needed, but avoid those that repeat the same info or are irrelevant.
+      Only include documents essential to answering the question.
+      If nothing is relevant, say so and answer from your own knowledge.
       You are given the following data:
 
 
