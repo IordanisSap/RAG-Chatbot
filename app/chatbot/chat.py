@@ -2,7 +2,7 @@ from KG_RAG import RAGAgent
 import yaml
 import os
 from ..utils import validate_path
-
+from .utils import minimal_markdown
 
 with open(os.path.join(os.path.dirname(__file__), "config.yaml"), "r") as f:
     config = yaml.safe_load(f)
@@ -27,6 +27,9 @@ async def process_message(user_message, collection, retrieval_config = None):
     llmKGRAGRes, KGRAGchunks = agent.generate_rag_persist(user_message, persist_dir, retrieval_config) #TODO
 
     llm_name = get_llm_name()
+
+    print(llmRAGRes)
+    print(minimal_markdown(llmRAGRes))
     
     response = [
         {
@@ -35,7 +38,7 @@ async def process_message(user_message, collection, retrieval_config = None):
         },
         {
             "name": llm_name + "+RAG",
-            "content": llmRAGRes,
+            "content": minimal_markdown(llmRAGRes),
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata.get('page', 0),
@@ -45,7 +48,7 @@ async def process_message(user_message, collection, retrieval_config = None):
         },
         {
             "name": llm_name + "+KG RAG",
-            "content": llmKGRAGRes,
+            "content": minimal_markdown(llmKGRAGRes),
             "chunks": [{
                 "source": os.path.basename(x.metadata['source']),
                 "page": x.metadata.get('page', 0),

@@ -11,7 +11,7 @@
 
 {% macro chatbot_content(name, text, id) -%}
     <b class="chatbot-name">{{ name }}</b>
-    <div id="{{id}}" readonly class="message">{{ text }}</div>
+    <div id="{{id}}" readonly class="message">{{ text | safe }}</div>
 {%- endmacro %}
 
 {% macro chatbot_thinking_content(name, id) -%}
@@ -19,7 +19,7 @@
 {%- endmacro %}
 
 {% macro user_content(text, id) -%}
-    <div id="{{id}}" readonly class="message">{{ text }}</div>
+    <div id="{{id}}" readonly class="message">{{ text | safe }}</div>
 {%- endmacro %}
 
 
