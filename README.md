@@ -40,9 +40,9 @@ Production
     gunicorn --workers=3 -b 0.0.0.0:8000 run:gunicorn_app --daemon
 
 
-And for larger collections
+And for indexing larger collections
 
     gunicorn --workers=3 -t 1800 --graceful-timeout 1800 -b 0.0.0.0:8000 run:gunicorn_app --daemon
 
 
-8. Open your web browser and navigate to `http://localhost:5000` to access the chatbot.
+8. Open your web browser and navigate to `http://localhost:5000/SemanticRAG` to access the chatbot.
