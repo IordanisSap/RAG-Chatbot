@@ -3,19 +3,30 @@
 
 retrieval:
   persist-dir: /mnt/10TB/iordanissapidis/SemanticRAG/retrieval_store
-  score-threshold: 0.4
-  topk: 5
+  score-threshold: 0.0
+  topk: 6
 
 generation:
   model: llama3.1:8b
+  temperature: 0.01
   prompts:
-    system: "Respond to all questions in a direct manner and explain your answer briefly. If provided with facts, pay very close attention to it"
+    system: "Respond to all questions in a direct manner and explain your answer briefly."
     rag_prompt: >
-      Review all provided data carefully.
-      Start with your conclusion. Then list only the documents used, each with a brief explanation.
-      Use multiple documents if needed, but avoid those that repeat the same info or are irrelevant.
-      Only include documents essential to answering the question.
-      If nothing is relevant, say so and answer from your own knowledge.
+      Review all provided document snippets.
+      Mention the number of every snippet you use, each with a brief explanation.
+      The answer may be split across two or more snippets so use multiple snippets if needed.
+      ONLY include documents essential to answering the question.
+      If they do not, clearly state it.
+      You are given the following data:
+
+    kgrag_prompt: >
+      Review all provided document snippets to answer.
+      The answer may be split across two or more snippets so use multiple snippets if needed.
+      Mention the number of every snippet you use, each with a brief explanation.
+      ONLY mention snippets that are essential to answering the question.
+      If they do not, clearly state it.
+      There may be snippets that do not directly answer the question themselves 
+      but can be combined with other snippets to provide a full answer.
       You are given the following data:
 
 

@@ -5,7 +5,7 @@
             {% if document.source.endswith('.csv') %}
                 <a href="{{ url_for('main.show_csv',collection=collection, src=document.source, row=document.row) }}">
                     {{ document.source }}
-                </a> (page: {{ document.page }})
+                </a> (row: {{ document.row }})
             {% else %}
                 <a href="{{ url_for('main.show_pdf',collection=collection, src=document.source, keyword=document.content) }}">
                     {{ document.source }}

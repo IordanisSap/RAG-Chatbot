@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, send_from_directory, abort, redirect, url_for, flash
-from .chatbot.chat import process_message, search_query, get_vectorstores, index_documents, get_tmp_dir, get_doc_dir
+from .chatbot.chat import process_message, search_query, get_vectorstores, index_documents, get_tmp_dir, get_doc_dir, load_LLM
 from .utils import validate_path
 
 import os
@@ -14,6 +14,7 @@ DOWNLOAD_FOLDER = get_doc_dir()
 @main.route('/')
 def menu():
     vectorstores = get_vectorstores()
+    load_LLM()
     return render_template('default.html', collections=vectorstores)
 
 

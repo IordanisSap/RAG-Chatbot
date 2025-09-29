@@ -24,7 +24,7 @@ async def process_message(user_message, collection, retrieval_config = None):
     retrieval_config["extensions"] = ['pdf']
     llmRAGRes, RAGchunks = agent.generate_rag_persist(user_message, persist_dir, retrieval_config)
     retrieval_config["extensions"] = ['pdf','csv']
-    llmKGRAGRes, KGRAGchunks = agent.generate_rag_persist(user_message, persist_dir, retrieval_config) #TODO
+    llmKGRAGRes, KGRAGchunks = agent.generate_kgrag_persist(user_message, persist_dir, retrieval_config)
 
     llm_name = get_llm_name()
 
@@ -99,3 +99,6 @@ def get_tmp_dir():
 
 def get_doc_dir():
     return config["doc-dir"]
+
+def load_LLM():
+    llmBaseRes = agent.generate("Reply only with 'yes' and nothing else. Just 'yes'")
