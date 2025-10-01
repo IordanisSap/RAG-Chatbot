@@ -37,7 +37,7 @@ def relevant_studies():
 @main.route('/pdf/<collection>/<src>', methods=['GET'])
 async def show_pdf(collection, src):
     # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
-    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
+    src_url = url_for('main.download_file', collection=collection, filename=src)
     keywords = request.args.getlist('keyword')[:10]
     processed_keywords = [
         part for word in keywords for part in (word.split('\n') if '\n' in word else [word])
@@ -50,7 +50,7 @@ async def show_pdf(collection, src):
 async def show_csv(collection, src, row):
     print(src,row)
     # src_url = url_for('main.download_file', collection=collection, filename=src, _external=True)
-    src_url = url_for('main.download_file', collection=collection, filename=src, _external=True, _scheme='https')
+    src_url = url_for('main.download_file', collection=collection, filename=src)
     return render_template('components/csv.html', src=src_url, row=row)
 
 
